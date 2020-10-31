@@ -345,9 +345,9 @@ function onAppReady(app) {
   }
 
   if (!app.songUrl) {
-    // player.createFromSongUrl("http://www.youtube.com/watch?v=ygY2qObZv24");
+    player.createFromSongUrl("http://www.youtube.com/watch?v=ygY2qObZv24");
     // player.createFromSongUrl("https://www.youtube.com/watch?v=a-Nf3QUFkOU");
-    player.createFromSongUrl("https://www.youtube.com/watch?v=XSLhsjepelI");
+    // player.createFromSongUrl("https://www.youtube.com/watch?v=XSLhsjepelI");
     // player.createFromSongUrl("https://piapro.jp/t/C0lr/20180328201242");
     // player.createFromSongUrl("http://www.nicovideo.jp/watch/sm32459303");
   }
@@ -426,7 +426,6 @@ function onTimeUpdate(position){
   }
   // vocalAmplitudeSpan.textContent = player.getVocalAmplitude(position);
 }
-
 
 // 再生が始まったら #overlay を非表示に
 // Hide #overlay when music playback started

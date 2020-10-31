@@ -26,7 +26,7 @@
     "bodymovin": "^4.13.0",
     "lottie-web": "^5.7.3",
     "p5": "^1.1.9",
-    "textalive-app-api": "^0.1.1"
+    "textalive-app-api": "^0.2.1"
   },
   "devDependencies": {
     "del-cli": "^3.0.1",
