@@ -63,6 +63,7 @@ let loadFlag = false;
 let phraseCount;
 let endTime;
 let phraseBeamCount;
+let collectionVocalAmplitudeArray = [];
 
 let subSatelliteRevolutionRedius = 200;
 let maxMainSatelitteRevolutionRedius = subSatelliteRevolutionRedius * 1.618;
@@ -304,6 +305,7 @@ player.addListener({
   onTimeUpdate,
   onPlay,
   onValenceArousalLoad,
+  onSeek
 });
 
 /**
@@ -317,27 +319,27 @@ function onAppReady(app) {
   if (!app.managed) {
     document.querySelector("#control").style.display = "block";
 
-    // 再生ボタン / Start music playback
+    // 再生ボタン
     playBtns.forEach((playBtn) =>
       playBtn.addEventListener("click", () => {
         player.video && player.requestPlay();
       })
     );
 
-    // 歌詞頭出しボタン / Seek to the first character in lyrics text
+    // 歌詞頭出しボタン
     jumpBtn.addEventListener(
       "click",
       // () => player.video && player.requestMediaSeek(player.video.firstChar.startTime)
       () => player.video && player.requestMediaSeek(player.video.lastPhrase.startTime)
     );
 
-    // 一時停止ボタン / Pause music playback
+    // 一時停止ボタン
     pauseBtn.addEventListener(
       "click",
       () => player.video && player.requestPause()
     );
 
-    // 巻き戻しボタン / Rewind music playback
+    // 巻き戻しボタン
     rewindBtn.addEventListener(
       "click",
       () => player.video && player.requestMediaSeek(0)
@@ -363,7 +365,6 @@ function onAppReady(app) {
  */
 function onVideoReady(v) {
   // メタデータを表示する
-  // Show meta data
   title = player.data.song.name;
   artist = player.data.song.artist.name;
   // artistSpan.textContent = artist;
@@ -413,11 +414,9 @@ function onTimerReady(t) {
  */
 function onThrottledTimeUpdate(position) {
   // 再生位置を表示する
-  // Update current position
   // positionEl.textContent = String(Math.floor(position));
 
   // さらに精確な情報が必要な場合は `player.timer.position` でいつでも取得できます
-  // More precise timing information can be retrieved by `player.timer.position` at any time
 }
 
 function onTimeUpdate(position){
@@ -428,7 +427,6 @@ function onTimeUpdate(position){
 }
 
 // 再生が始まったら #overlay を非表示に
-// Hide #overlay when music playback started
 function onPlay() {
   document.querySelector("#overlay").style.display = "none";
 }
@@ -440,6 +438,11 @@ function onValenceArousalLoad(valenceArousal, reason) {
   if(!valenceArousal.seq){
     isValenceArousalValid = false;
   }
+}
+
+function onSeek(){
+  let obj = document.querySelector("#loader");
+  obj.style.opacity = 0;
 }
 
 function splashOnPos(position, index, offsetX, offsetY) {
@@ -486,7 +489,6 @@ new P5((p5) => {
   let phraseBeamArray = [];
   let charCollectionArray = [];
   let charCollectionArrayLength;
-  let collectionVocalAmplitudeArray = [];
   let startPointArray = [];
   let maxCollectionVocalAmplitudeCount = 0;
 
@@ -599,7 +601,7 @@ new P5((p5) => {
       if(position < sphereCompleteTime){
         newy = z * newsin;
         newx = z * newcos;
-        let inter = 0.05 + 0.95 * Ease.quintIn(position / sphereCompleteTime);
+        let inter = 0.05 + 0.95 * Ease.quintInOut(position / sphereCompleteTime);
         ballRadius = maxBallRadius * inter;
         p5.ellipse(newx, newy, (ballRadius - 0.25 * cosAngle * ball[0] / p5.abs(ball[0])));
       } else {
@@ -663,7 +665,7 @@ new P5((p5) => {
         if(beatProgress - 0.005 * i < 0) break;
         mainSatelitteRedius = maxSatelitteRedius - i * 1.33;
         if(position < sphereCompleteTime){
-          mainSatelitteRedius = mainSatelitteRedius * (0.05 + 0.95 * Ease.quintIn(position / sphereCompleteTime));
+          mainSatelitteRedius = mainSatelitteRedius * (0.05 + 0.95 * Ease.quintInOut(position / sphereCompleteTime));
         }
         let x = mainSatelitteRevolutionRedius * dcos - 2 * mainSatelitteRevolutionRedius * dcos * (beatProgress - 0.005 * i);
         let y = - mainSatelitteRevolutionRedius * dsin + 2 * mainSatelitteRevolutionRedius * dsin * Ease.cubicOut(beatProgress - i * 0.005)
@@ -679,7 +681,7 @@ new P5((p5) => {
         if(beatProgress - 0.003 * i < 0) break;
         mainSatelitteRedius = maxSatelitteRedius - i;
         if(position < sphereCompleteTime){
-          mainSatelitteRedius = mainSatelitteRedius * (0.05 + 0.95 * Ease.quintIn(position / sphereCompleteTime));
+          mainSatelitteRedius = mainSatelitteRedius * (0.05 + 0.95 * Ease.quintInOut(position / sphereCompleteTime));
         }
         let x = - mainSatelitteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) + 2 * mainSatelitteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) * Ease.cubicIn(beatProgress - 0.003 * i);
         let y = mainSatelitteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) - 2 * mainSatelitteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) * (beatProgress - 0.003 * i);
@@ -745,7 +747,7 @@ new P5((p5) => {
         if(criticalBeatIndex == -1){
           criticalBeatIndex = beatIndex;
         }
-        if(criticalBeatIndex < beatIndex){
+        if(criticalBeatIndex !=  beatIndex){
           criticalBeatIndex = -1;
           chorusFlag = true;
         } else {
@@ -875,7 +877,7 @@ new P5((p5) => {
         if(criticalBeatIndex == -1){
           criticalBeatIndex = beatIndex;
         }
-        if(criticalBeatIndex < beatIndex){
+        if(criticalBeatIndex != beatIndex){
 
           // 流星リストをリセット
           meteorArray = [];
@@ -1570,7 +1572,7 @@ new P5((p5) => {
       }
 
       //Outroキャラ輪郭画像
-      if(position > loadEndTime && outroFlag){
+      if(position > loadEndTime && outroFlag && position < endTime){
         p5.push();
         p5.translate(0, -height * (0.618 - 0.382));
         let obj = document.querySelector("#loader");
@@ -1579,6 +1581,12 @@ new P5((p5) => {
           p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2 * Ease.backOut(progress), -3, mainSatelitteRevolutionRedius * Ease.backOut(progress), 6);
         } else if(position < loadEndTime + headTime * 2){
           let progress = (position - loadEndTime - headTime) / headTime;
+          p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2, -3 + (-mainSatelitteRevolutionRedius * 0.7 + 3) * Ease.backOut(progress), mainSatelitteRevolutionRedius, 6 + (mainSatelitteRevolutionRedius * 1.4 - 6) * Ease.backOut(progress));
+        } else if(position > endTime - headTime){
+          let progress = (endTime - position) / headTime;
+          p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2 * Ease.backOut(progress), -3, mainSatelitteRevolutionRedius * Ease.backOut(progress), 6);
+        } else if(position > endTime - headTime * 2){
+          let progress = (endTime - position - headTime) / headTime;
           p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2, -3 + (-mainSatelitteRevolutionRedius * 0.7 + 3) * Ease.backOut(progress), mainSatelitteRevolutionRedius, 6 + (mainSatelitteRevolutionRedius * 1.4 - 6) * Ease.backOut(progress));
         } else {
           p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2, -mainSatelitteRevolutionRedius * 0.7, mainSatelitteRevolutionRedius, mainSatelitteRevolutionRedius * 1.4);
