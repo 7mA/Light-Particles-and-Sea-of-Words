@@ -1563,7 +1563,6 @@ new P5((p5) => {
       if(position > loadEndTime && outroFlag && position < endTime - headTime){
         p5.push();
         p5.translate(0, -height * (0.618 - 0.382));
-        let obj = document.querySelector("#loader");
         if(position < loadEndTime + headTime){
           let progress = (position - loadEndTime) / headTime;
           p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2 * Ease.backOut(progress), -3, mainSatelitteRevolutionRedius * Ease.backOut(progress), 6);
