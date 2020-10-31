@@ -423,7 +423,7 @@ function onTimeUpdate(position){
 
 // 再生が始まったら #overlay を非表示に
 function onPlay() {
-  document.querySelector("#overlay").style.display = "none";
+
 }
 
 function onValenceArousalLoad(valenceArousal, reason) {
