@@ -345,10 +345,10 @@ function onAppReady(app) {
   }
 
   if (!app.songUrl) {
-    // player.createFromSongUrl("http://www.youtube.com/watch?v=ygY2qObZv24");
+    player.createFromSongUrl("http://www.youtube.com/watch?v=ygY2qObZv24");
     // player.createFromSongUrl("https://www.youtube.com/watch?v=a-Nf3QUFkOU");
     // player.createFromSongUrl("https://www.youtube.com/watch?v=XSLhsjepelI");
-    player.createFromSongUrl("https://piapro.jp/t/C0lr/20180328201242");
+    // player.createFromSongUrl("https://piapro.jp/t/C0lr/20180328201242");
     // player.createFromSongUrl("http://www.nicovideo.jp/watch/sm32459303");
   }
 
@@ -426,7 +426,6 @@ function onTimeUpdate(position){
   }
   // vocalAmplitudeSpan.textContent = player.getVocalAmplitude(position);
 }
-
 
 // 再生が始まったら #overlay を非表示に
 // Hide #overlay when music playback started
@@ -583,7 +582,7 @@ new P5((p5) => {
     let ballsLength = balls.length
     var dcos = p5.cos(p5.TWO_PI/360 * 23.5);
     var dsin = p5.sin(p5.TWO_PI/360 * 23.5);
-    for(let i = 0;i < ballsLength;i++){
+    for(let i = 0; i < ballsLength; i++){
       let ball = balls[i];
       let angle = frameCount / ballSpeed + ball[2]
       let ballRadius;
@@ -600,9 +599,9 @@ new P5((p5) => {
       if(position < sphereCompleteTime){
         newy = z * newsin;
         newx = z * newcos;
-        let inter = 0.05 + 0.95 * Ease.quintOut(position / sphereCompleteTime);
+        let inter = 0.05 + 0.95 * Ease.quintIn(position / sphereCompleteTime);
         ballRadius = maxBallRadius * inter;
-        p5.ellipse(newx, newy, (ballRadius - 0.25 * cosAngle * ball[0] / p5.abs(ball[0])) * inter);
+        p5.ellipse(newx, newy, (ballRadius - 0.25 * cosAngle * ball[0] / p5.abs(ball[0])));
       } else {
         ballRadius = maxBallRadius;
         newy = z * newsin;
@@ -622,7 +621,7 @@ new P5((p5) => {
     if(chorusIndex !== "" && chorusFlag){
       p5.fill("#7fecad");
       for(let j = 0; j < meteorArray.length; j++){
-        let ball = balls[j];
+        let ball = balls[meteorArray[j]];
         let currentX = ball[0] * p5.sin(frameCount / ballSpeed + ball[2]);
         let beforeX = ball[0] * p5.sin((frameCount - 1) / ballSpeed + ball[2]);
         if(beforeX > currentX){
@@ -664,7 +663,7 @@ new P5((p5) => {
         if(beatProgress - 0.005 * i < 0) break;
         mainSatelitteRedius = maxSatelitteRedius - i * 1.33;
         if(position < sphereCompleteTime){
-          mainSatelitteRedius = mainSatelitteRedius * (0.05 + 0.95 * Ease.quintInOut(position / sphereCompleteTime));
+          mainSatelitteRedius = mainSatelitteRedius * (0.05 + 0.95 * Ease.quintIn(position / sphereCompleteTime));
         }
         let x = mainSatelitteRevolutionRedius * dcos - 2 * mainSatelitteRevolutionRedius * dcos * (beatProgress - 0.005 * i);
         let y = - mainSatelitteRevolutionRedius * dsin + 2 * mainSatelitteRevolutionRedius * dsin * Ease.cubicOut(beatProgress - i * 0.005)
@@ -680,7 +679,7 @@ new P5((p5) => {
         if(beatProgress - 0.003 * i < 0) break;
         mainSatelitteRedius = maxSatelitteRedius - i;
         if(position < sphereCompleteTime){
-          mainSatelitteRedius = mainSatelitteRedius * (0.05 + 0.95 * Ease.quintInOut(position / sphereCompleteTime));
+          mainSatelitteRedius = mainSatelitteRedius * (0.05 + 0.95 * Ease.quintIn(position / sphereCompleteTime));
         }
         let x = - mainSatelitteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) + 2 * mainSatelitteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) * Ease.cubicIn(beatProgress - 0.003 * i);
         let y = mainSatelitteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) - 2 * mainSatelitteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) * (beatProgress - 0.003 * i);
