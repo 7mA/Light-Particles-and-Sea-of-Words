@@ -394,15 +394,11 @@ function onVideoReady(v) {
  */
 function onTimerReady(t) {
   // ボタンを有効化する
-  // Enable buttons
-  if (!player.app.managed) {
-    document
-      .querySelectorAll("button")
-      .forEach((btn) => (btn.disabled = false));
-  }
+  document
+    .querySelectorAll("button")
+    .forEach((btn) => (btn.disabled = false));
 
   // 歌詞がなければ歌詞頭出しボタンを無効にする
-  // Disable jump button if no lyrics is available
   jumpBtn.disabled = !player.video.firstChar;
 }
 
