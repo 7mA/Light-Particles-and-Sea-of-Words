@@ -1090,7 +1090,6 @@ new P5((p5) => {
           minCharOffsetX = 0;
           if(position < endTime){
             for(let i = 0; i < phrase.charCount; i++){
-
               if (position > char.startTime) {
                 if(position < char.endTime){
                   let pos = char.parent.pos;
@@ -1107,6 +1106,10 @@ new P5((p5) => {
               } else if(position < char.startTime) {
                 typeOffsetX = -minCharOffsetX / 2;
                 break;
+              }
+
+              if(i == phrase.charCount - 1){
+                typeOffsetX = -minCharOffsetX / 2;
               }
 
               minCharOffsetX += p5.textWidth(char.text);
