@@ -1121,7 +1121,7 @@ new P5((p5) => {
           if (position > endTime) {
             char = phrase.firstChar;
             minCharOffsetX = 0;
-            if(typeOffsetX === 0){
+            if(p5.abs(typeOffsetX - (-p5.textWidth(phrase.text) / 2)) > 20){
               typeOffsetX = - p5.textWidth(phrase.text) / 2;
             }
             // 退場ステップ1（Enterキーエフェクト）
