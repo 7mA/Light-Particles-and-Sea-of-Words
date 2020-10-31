@@ -971,6 +971,7 @@ new P5((p5) => {
     tailTime = 300;
     let outroBeamTime = tailTime * 2;
     let phrase = player.video.findPhrase(position - tailTime, { loose: true });
+    let obj = document.querySelector("#loader");
     //　歌詞
     if (phrase) {
       let chorusAtStart = player.findChorus(phrase.startTime);
@@ -1472,7 +1473,6 @@ new P5((p5) => {
 
       // Outroローディング
       if(position > loadStartTime && position < loadEndTime){
-        let obj = document.querySelector("#loader");
         let charFlightTime = 1000;
         if(!loadFlag && position < endTime){
           lottieLoaderAnimation.setSpeed(1);
@@ -1510,19 +1510,6 @@ new P5((p5) => {
         p5.push();
         p5.translate(0, -height * (0.618 - 0.382));
         p5.textSize(20);
-        if(position < loadStartTime + headTime){
-          let progress = (position - loadStartTime) / headTime;
-          obj.style.opacity = progress;
-        } else if(position > loadEndTime - tailTime){
-          let progress = (loadEndTime - position) / tailTime;
-          if(progress < 0.2) {
-            obj.style.opacity = 0;
-          } else {
-            obj.style.opacity = progress;
-          }
-        } else {
-          obj.style.opacity = 1;
-        }
         if(position > loadStartTime && position < loadEndTime){
           let progress;
           for(let i = 3; i >= 0; i--){
@@ -1596,6 +1583,19 @@ new P5((p5) => {
         p5.text("「初音ミク」はクリプトン・フューチャー・メディア株式会社の著作物です。Crypton Future Media, INC. www.piapro.net", 0, height * 0.350)
         p5.text("Namir Mostafa, Natalie Yeh @LottieFiles", 0, height * 0.365);
       }
+    }
+    if(position > loadStartTime && position < loadStartTime + headTime ){
+      let progress = (position - loadStartTime) / headTime;
+      obj.style.opacity = progress;
+    } else if(position < loadEndTime && position > loadEndTime - tailTime){
+      let progress = (loadEndTime - position) / tailTime;
+      if(progress < 0.2) {
+        obj.style.opacity = 0;
+      } else {
+        obj.style.opacity = progress;
+      }
+    } else {
+      obj.style.opacity = 1;
     }
 
     p5.pop();
