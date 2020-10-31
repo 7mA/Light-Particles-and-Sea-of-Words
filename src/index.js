@@ -329,8 +329,8 @@ function onAppReady(app) {
     // 歌詞頭出しボタン
     jumpBtn.addEventListener(
       "click",
-      // () => player.video && player.requestMediaSeek(player.video.firstChar.startTime)
-      () => player.video && player.requestMediaSeek(player.video.lastPhrase.startTime)
+      () => player.video && player.requestMediaSeek(player.video.firstChar.startTime)
+      // () => player.video && player.requestMediaSeek(player.video.lastPhrase.startTime)
     );
 
     // 一時停止ボタン
@@ -347,15 +347,14 @@ function onAppReady(app) {
   }
 
   if (!app.songUrl) {
-    player.createFromSongUrl("http://www.youtube.com/watch?v=ygY2qObZv24");
+    // player.createFromSongUrl("http://www.youtube.com/watch?v=ygY2qObZv24");
     // player.createFromSongUrl("https://www.youtube.com/watch?v=a-Nf3QUFkOU");
-    // player.createFromSongUrl("https://www.youtube.com/watch?v=XSLhsjepelI");
+    player.createFromSongUrl("https://www.youtube.com/watch?v=XSLhsjepelI");
     // player.createFromSongUrl("https://piapro.jp/t/C0lr/20180328201242");
     // player.createFromSongUrl("http://www.nicovideo.jp/watch/sm32459303");
   }
 
   let isValenceArousalValid = true;
-  let chorusFlag = false;
 }
 
 /**
@@ -601,7 +600,7 @@ new P5((p5) => {
       if(position < sphereCompleteTime){
         newy = z * newsin;
         newx = z * newcos;
-        let inter = 0.05 + 0.95 * Ease.quintInOut(position / sphereCompleteTime);
+        let inter = 0.05 + 0.95 * Ease.quadIn(position / sphereCompleteTime);
         ballRadius = maxBallRadius * inter;
         p5.ellipse(newx, newy, (ballRadius - 0.25 * cosAngle * ball[0] / p5.abs(ball[0])));
       } else {
@@ -665,7 +664,7 @@ new P5((p5) => {
         if(beatProgress - 0.005 * i < 0) break;
         mainSatelitteRedius = maxSatelitteRedius - i * 1.33;
         if(position < sphereCompleteTime){
-          mainSatelitteRedius = mainSatelitteRedius * (0.05 + 0.95 * Ease.quintInOut(position / sphereCompleteTime));
+          mainSatelitteRedius = mainSatelitteRedius * (0.05 + 0.95 * Ease.quadIn(position / sphereCompleteTime));
         }
         let x = mainSatelitteRevolutionRedius * dcos - 2 * mainSatelitteRevolutionRedius * dcos * (beatProgress - 0.005 * i);
         let y = - mainSatelitteRevolutionRedius * dsin + 2 * mainSatelitteRevolutionRedius * dsin * Ease.cubicOut(beatProgress - i * 0.005)
@@ -681,7 +680,7 @@ new P5((p5) => {
         if(beatProgress - 0.003 * i < 0) break;
         mainSatelitteRedius = maxSatelitteRedius - i;
         if(position < sphereCompleteTime){
-          mainSatelitteRedius = mainSatelitteRedius * (0.05 + 0.95 * Ease.quintInOut(position / sphereCompleteTime));
+          mainSatelitteRedius = mainSatelitteRedius * (0.05 + 0.95 * Ease.quadIn(position / sphereCompleteTime));
         }
         let x = - mainSatelitteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) + 2 * mainSatelitteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) * Ease.cubicIn(beatProgress - 0.003 * i);
         let y = mainSatelitteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) - 2 * mainSatelitteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) * (beatProgress - 0.003 * i);
@@ -747,7 +746,7 @@ new P5((p5) => {
         if(criticalBeatIndex == -1){
           criticalBeatIndex = beatIndex;
         }
-        if(criticalBeatIndex !=  beatIndex){
+        if(criticalBeatIndex != beatIndex){
           criticalBeatIndex = -1;
           chorusFlag = true;
         } else {
@@ -884,6 +883,8 @@ new P5((p5) => {
 
           criticalBeatIndex = -1;
           chorusFlag = false;
+        } else if(criticalBeatIndex === undefined || beatIndex === undefined){
+          // スキップ
         } else {
           if(beatIndex % 2 == 0){
             // 上方へ追加分Satellite退場
@@ -941,12 +942,14 @@ new P5((p5) => {
     p5.textFont(mplus);
     let rightOffset = width / 2 + 30;
     let leftOffset = width / 2 - 30;
-    if(position > titleStartTime - 100 && position < titleStartTime){
+    let headTime = 100;
+    let tailTime = 100;
+    if(position > titleStartTime - headTime && position < titleStartTime){
       p5.fill("#CCFFCC");
       p5.textSize(40);
-      p5.text(title, rightOffset + (width - rightOffset) * (titleStartTime - position) / 100, height * 0.618);
+      p5.text(title, rightOffset + (width - rightOffset) * Ease.circIn((titleStartTime - position) / headTime), height * 0.618);
       p5.textSize(30);
-      p5.text(artist, leftOffset - (leftOffset) * (titleStartTime - position) / 100, height * 0.618 + 60);
+      p5.text(artist, leftOffset - (leftOffset) * Ease.circIn((titleStartTime - position) / headTime), height * 0.618 + 60);
     }
     if(position > titleStartTime && position < titleEndTime){
       p5.fill("#F0FFF0");
@@ -955,12 +958,12 @@ new P5((p5) => {
       p5.textSize(30);
       p5.text(artist, width / 2 + 60 * (position - (titleEndTime + titleStartTime) / 2) / (titleEndTime - titleStartTime), height * 0.618 + 60);
     }
-    if(position > titleEndTime && position < titleEndTime + 100){
+    if(position > titleEndTime && position < titleEndTime + tailTime){
       p5.fill("#CCFFCC");
       p5.textSize(40);
-      p5.text(title, leftOffset - leftOffset * (position - titleEndTime) / 100, height * 0.618);
+      p5.text(title, leftOffset - leftOffset * Ease.circIn((position - titleEndTime) / tailTime), height * 0.618);
       p5.textSize(30);
-      p5.text(artist, rightOffset + (width - rightOffset) * (position - titleEndTime) / 100, height * 0.618 + 60);
+      p5.text(artist, rightOffset + (width - rightOffset) * Ease.circIn((position - titleEndTime) / tailTime), height * 0.618 + 60);
     }
     p5.pop();
 
@@ -968,8 +971,8 @@ new P5((p5) => {
     p5.push();
     p5.textFont(mplus);
     p5.translate(width / 2, height * 0.618);
-    let headTime = 300;
-    let tailTime = 300;
+    headTime = 300;
+    tailTime = 300;
     let outroBeamTime = tailTime * 2;
     let phrase = player.video.findPhrase(position - tailTime, { loose: true });
     //　歌詞
@@ -1572,7 +1575,7 @@ new P5((p5) => {
       }
 
       //Outroキャラ輪郭画像
-      if(position > loadEndTime && outroFlag && position < endTime){
+      if(position > loadEndTime && outroFlag && position < endTime - headTime){
         p5.push();
         p5.translate(0, -height * (0.618 - 0.382));
         let obj = document.querySelector("#loader");
@@ -1582,9 +1585,6 @@ new P5((p5) => {
         } else if(position < loadEndTime + headTime * 2){
           let progress = (position - loadEndTime - headTime) / headTime;
           p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2, -3 + (-mainSatelitteRevolutionRedius * 0.7 + 3) * Ease.backOut(progress), mainSatelitteRevolutionRedius, 6 + (mainSatelitteRevolutionRedius * 1.4 - 6) * Ease.backOut(progress));
-        } else if(position > endTime - headTime){
-          let progress = (endTime - position) / headTime;
-          p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2 * Ease.backOut(progress), -3, mainSatelitteRevolutionRedius * Ease.backOut(progress), 6);
         } else if(position > endTime - headTime * 2){
           let progress = (endTime - position - headTime) / headTime;
           p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2, -3 + (-mainSatelitteRevolutionRedius * 0.7 + 3) * Ease.backOut(progress), mainSatelitteRevolutionRedius, 6 + (mainSatelitteRevolutionRedius * 1.4 - 6) * Ease.backOut(progress));
