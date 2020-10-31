@@ -1524,6 +1524,8 @@ new P5((p5) => {
           } else {
             obj.style.opacity = progress;
           }
+        } else {
+          obj.style.opacity = 1;
         }
         if(position > loadStartTime && position < loadEndTime){
           let progress;
