@@ -38,6 +38,7 @@ const unitProgressSpan = document.querySelector("#unitProgress span");
 const lottieSplashContainer = document.querySelector("#lottie-splash");
 const lottieLoaderContainer = document.querySelector("#lottie-loader");
 
+let video;
 let isValenceArousalValid = true;
 let chorusFlag = false;
 let criticalBeatIndex = -1;
@@ -369,6 +370,8 @@ function onVideoReady(v) {
   // artistSpan.textContent = artist;
   // songSpan.textContent = title;
 
+  video = v;
+
   maxVocalAmplitude = player.getMaxVocalAmplitude();
   const medianValenceArousal = player.getMedianValenceArousal();
 
@@ -380,11 +383,11 @@ function onVideoReady(v) {
 
   ballSpeed = 40 * (1 - medianArousal);
 
-  lyricStartTime = v.firstChar.startTime;
+  lyricStartTime = video.firstChar.startTime;
   sphereCompleteTime = lyricStartTime / 4;
   titleStartTime = lyricStartTime / 2;
   titleEndTime = lyricStartTime * 3 / 4;
-  endTime = v.duration;
+  endTime = video.duration;
 }
 
 /**
@@ -399,7 +402,7 @@ function onTimerReady(t) {
     .forEach((btn) => (btn.disabled = false));
 
   // 歌詞がなければ歌詞頭出しボタンを無効にする
-  jumpBtn.disabled = !player.video.firstChar;
+  jumpBtn.disabled = !video.firstChar;
 }
 
 /**
@@ -520,7 +523,7 @@ new P5((p5) => {
 
   p5.draw = () => {
     // プレイヤーが準備できていなかったら何もしない
-    if (!player || !player.video) {
+    if (!player || !video) {
       return;
     }
     const position = player.timer.position;
@@ -970,7 +973,7 @@ new P5((p5) => {
     headTime = 300;
     tailTime = 300;
     let outroBeamTime = tailTime * 2;
-    let phrase = player.video.findPhrase(position - tailTime, { loose: true });
+    let phrase = video.findPhrase(position - tailTime, { loose: true });
     let obj = document.querySelector("#loader");
     //　歌詞
     if (phrase) {
@@ -981,7 +984,7 @@ new P5((p5) => {
       let text = phrase.text;
       let maxOffsetX = 0;
       let minCharOffsetX = 0;
-      let index = player.video.findIndex(phrase);
+      let index = video.findIndex(phrase);
 
       // Chorus
       if(chorusAtStart !== null || chorusAtEnd !== null){
@@ -1032,7 +1035,7 @@ new P5((p5) => {
                   p5.text(char.text, minCharOffsetX + offsetX, 0);
                   if(position < char.endTime){
                     let pos = char.parent.pos;
-                    let charIndex = player.video.findIndex(char);
+                    let charIndex = video.findIndex(char);
                     if(pos === "N" || pos === "PN"){
                       splashOnPos(position, charIndex, minCharOffsetX + offsetX + width / 2 - 158, height * 0.618 - 150);
                     }
@@ -1041,7 +1044,7 @@ new P5((p5) => {
                   p5.text(char.text, minCharOffsetX + offsetX, 60);
                   if(position < char.endTime){
                     let pos = char.parent.pos;
-                    let charIndex = player.video.findIndex(char);
+                    let charIndex = video.findIndex(char);
                     if(pos === "N" || pos === "PN"){
                       splashOnPos(position, charIndex, minCharOffsetX + offsetX + width / 2 - 158, height * 0.618 - 150 + 60);
                     }
@@ -1094,7 +1097,7 @@ new P5((p5) => {
                 if(position < char.endTime){
                   let pos = char.parent.pos;
                   p5.fill("#CCFFFF");
-                  let wordIndex = player.video.findIndex(char.parent);
+                  let wordIndex = video.findIndex(char.parent);
                   if(pos === "N" || pos === "PN"){
                     splashOnPos(position, wordIndex, minCharOffsetX + typeOffsetX + width / 2 - 158, height * 0.618 + 60 - 150);
                   }
@@ -1160,8 +1163,8 @@ new P5((p5) => {
 
       //　次のPhraseを予行レンダリング
       if(nextPhrase == null){
-        nextPhrase = player.video.findPhrase(position + headTime, { loose: true });
-        nextIndex = player.video.findIndex(nextPhrase);
+        nextPhrase = video.findPhrase(position + headTime, { loose: true });
+        nextIndex = video.findIndex(nextPhrase);
       }
       if(nextPhrase && (nextIndex != index)){
         nextChorusAtStart = player.findChorus(nextPhrase.startTime);
@@ -1214,7 +1217,7 @@ new P5((p5) => {
                   p5.text(char.text, nextMinCharOffsetX + nextOffsetX, 0);
                   if(position < char.endTime){
                     let pos = char.parent.pos;
-                    let charIndex = player.video.findIndex(char);
+                    let charIndex = video.findIndex(char);
                     if(pos === "N" || pos === "PN"){
                       splashOnPos(position, charIndex, nextMinCharOffsetX + nextOffsetX + width / 2 - 158, height * 0.618 - 150);
                     }
@@ -1223,7 +1226,7 @@ new P5((p5) => {
                   p5.text(char.text, nextMinCharOffsetX + nextOffsetX, 60);
                   if(position < char.endTime){
                     let pos = char.parent.pos;
-                    let charIndex = player.video.findIndex(char);
+                    let charIndex = video.findIndex(char);
                     if(pos === "N" || pos === "PN"){
                       splashOnPos(position, charIndex, nextMinCharOffsetX + nextOffsetX + width / 2 - 158, height * 0.618 + 60 - 150);
                     }
@@ -1244,7 +1247,7 @@ new P5((p5) => {
                 if(position < char.endTime){
                   let pos = char.parent.pos;
                   p5.fill("#CCFFFF");
-                  let wordIndex = player.video.findIndex(char.parent);
+                  let wordIndex = video.findIndex(char.parent);
                   if(pos === "N" || pos === "PN"){
                     splashOnPos(position, wordIndex, nextMinCharOffsetX + nextTypeOffsetX + width / 2 - 158, height * 0.618 + 60 - 150);
                   }
@@ -1303,7 +1306,7 @@ new P5((p5) => {
     else {　// Outro
       if(!outroFlag && position < endTime){
         outroStartTime = position;
-        phraseCount = player.video.phraseCount;
+        phraseCount = video.phraseCount;
         phraseBeamCount = (endTime - outroStartTime) * 0.3 / outroBeamTime;
         beamStartTime = outroStartTime;
         beamEndTime = outroStartTime + (endTime - outroStartTime) * 0.3;
@@ -1312,7 +1315,7 @@ new P5((p5) => {
         for(let i = 0; i < phraseBeamCount; i++){
           let index = Math.round(p5.random(phraseCount));
           while(phraseBeamArray.indexOf(index) !== -1) index = Math.round(p5.random(phraseCount));
-          if(player.video.getPhrase(index) === null) index = Math.round(p5.random(phraseCount));
+          if(video.getPhrase(index) === null) index = Math.round(p5.random(phraseCount));
           phraseBeamArray.push(index);
         }
 
@@ -1344,7 +1347,7 @@ new P5((p5) => {
           if(currentPhraseBeamIndex % 2 == 0){
             if((position - beamStartTime) % outroBeamTime < tailTime){
               let beamProgress = (position - currentPhraseBeamStartTime) / tailTime;
-              let phrase = player.video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
+              let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
               p5.fill("#CCFFCC");
               p5.textSize(35);
@@ -1366,7 +1369,7 @@ new P5((p5) => {
               }
             } else {
               let beamProgress = (position - currentPhraseBeamStartTime - tailTime) / tailTime;
-              let phrase = player.video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
+              let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
               p5.fill("#CCFFCC");
               p5.textSize(35);
@@ -1390,7 +1393,7 @@ new P5((p5) => {
           } else {
             if((position - beamStartTime) % outroBeamTime < tailTime){
               let beamProgress = (position - currentPhraseBeamStartTime) / tailTime;
-              let phrase = player.video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
+              let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
               p5.fill("#CCFFCC");
               p5.textSize(35);
@@ -1412,7 +1415,7 @@ new P5((p5) => {
               }
             } else {
               let beamProgress = (position - currentPhraseBeamStartTime - tailTime) / tailTime;
-              let phrase = player.video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
+              let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
               p5.fill("#CCFFCC");
               p5.textSize(35);
@@ -1490,14 +1493,14 @@ new P5((p5) => {
           charCollectionArrayLength = Math.floor(loadTime - charFlightTime) / headTime;
           for(let i = 0; i < charCollectionArrayLength; i++){
             let phraseIndex = Math.floor(p5.random(phraseBeamCount));
-            let phrase = player.video.getPhrase(phraseBeamArray[phraseIndex]);
+            let phrase = video.getPhrase(phraseBeamArray[phraseIndex]);
             let wordIndex = Math.floor(p5.random(phrase.wordCount));
             let word = phrase.children[wordIndex];
             let charIndex = Math.floor(p5.random(word.charCount));
             let char = word.children[charIndex];
             while(charCollectionArray.indexOf(char.text) != -1){
               phraseIndex = Math.floor(p5.random(phraseBeamCount));
-              phrase = player.video.getPhrase(phraseBeamArray[phraseIndex]);
+              phrase = video.getPhrase(phraseBeamArray[phraseIndex]);
               wordIndex = Math.floor(p5.random(phrase.wordCount));
               word = phrase.children[wordIndex];
               charIndex = Math.floor(p5.random(word.charCount));
