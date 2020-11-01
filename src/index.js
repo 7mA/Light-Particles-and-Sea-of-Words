@@ -65,7 +65,10 @@ let phraseCount;
 let songEndTime;
 let phraseBeamCount;
 let collectionVocalAmplitudeArray = [];
-  let phraseBeamArray = [];
+let phraseBeamArray = [];
+
+let themeColor = 0;
+let manualMode = false;
 
 let subSatelliteRevolutionRedius = 200;
 let maxMainSatelitteRevolutionRedius = subSatelliteRevolutionRedius * 1.618;
@@ -261,34 +264,24 @@ const player = new Player({
     appName: "Light Particles and Sea of Words",
     parameters: [
         {
-          title: "フォントサイズ",
-          name: "fontSize",
-          className: "Slider",
-          params: [0, 100],
-          initialValue: 70,
-        },
-        {
-          title: "テキスト色",
-          name: "color",
-          className: "Color",
-          initialValue: { r: 31, g: 67, b: 145 },
-          // initialValue: "#1f4391" // 文字列でも動作します
-        },
-        {
-          title: "ダークモード",
-          name: "darkMode",
-          className: "Check",
-          initialValue: false,
-        },
-        {
-          title: "フォントのスタイル",
-          name: "fontStyle",
+          title: "テーマカラー",
+          name: "themeColor",
           className: "Select",
           params: [
-            ["sans-serif", "サンセリフ (ゴシック体)"],
-            ["serif", "セリフ (明朝体)"],
+            [0, "初音ミク"],
+            [1, "鏡音レン"],
+            [2, "鏡音リン"],
+            [3, "巡音ルカ"],
+            [4, "MEIKO"],
+            [5, "KAITO"],
           ],
-          initialValue: "sans-serif",
+          initialValue: 0,
+        },
+        {
+          title: "マニュアルモード",
+          name: "manualMode",
+          className: "Check",
+          initialValue: false,
         },
       ]
   },
@@ -307,7 +300,8 @@ player.addListener({
   onTimeUpdate,
   onPlay,
   onValenceArousalLoad,
-  onSeek
+  onSeek,
+  onAppParameterUpdate
 });
 
 /**
@@ -403,6 +397,8 @@ function onVideoReady(v) {
   phraseBeamArray = [];
   let obj = document.querySelector("#loader");
   obj.style.opacity = 0;
+  themeColor = 0;
+  manualMode = false;
 }
 
 /**
@@ -456,6 +452,20 @@ function onValenceArousalLoad(valenceArousal, reason) {
 function onSeek(){
   let obj = document.querySelector("#loader");
   obj.style.opacity = 0;
+}
+
+/**
+ * カスタマイズパラメータ変更イベント
+ *
+ * @param {String} name
+ * @param {Object} value
+ */
+function onAppParameterUpdate(name, value){
+  if(name === "themeColor"){
+    themeColor = value;
+  } else if(name === "manualMode"){
+    manualMode = value;
+  }
 }
 
 function splashOnPos(position, index, offsetX, offsetY) {
@@ -1651,8 +1661,8 @@ new P5((p5) => {
     let gradientStartColor = beatIndex ? p5.color(colorGradientArray[0][(beatIndex - 1) % 6]) : "";
     let gradientMiddleColor =  beatIndex ? p5.color(colorGradientArray[0][beatIndex % 6]) : "";
     let gradientEndColor = beatIndex ? p5.color(colorGradientArray[0][(beatIndex + 1) % 6]) : "";
-    let characterLightColor = p5.color(lightColorGradientArray[5]);
-    let characterHeavyColor = p5.color(heavyColorGradientArray[5]);
+    let characterLightColor = p5.color(lightColorGradientArray[themeColor]);
+    let characterHeavyColor = p5.color(heavyColorGradientArray[themeColor]);
     if(chordNameMatrix[i].indexOf(chordName) == -1){
       if(chorusIndex === "" || !chorusFlag){
         p5.fill("#758a99");
