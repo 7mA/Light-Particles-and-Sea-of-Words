@@ -27,7 +27,12 @@ import Butterfly2 from './assets/butterfly_2.png'
 import Butterfly3 from './assets/butterfly_3.png'
 import Butterfly4 from './assets/butterfly_4.png'
 import Butterfly5 from './assets/butterfly_5.png'
-import MikuPic from './assets/mikuv4x.png'
+import Character0 from './assets/mikuv4x.png'
+import Character1 from './assets/lenv4x.png'
+import Character2 from './assets/rinv4x.png'
+import Character3 from './assets/lukav4x.png'
+import Character4 from './assets/meikov3.png'
+import Character5 from './assets/kaitov3.png'
 
 const playBtns = document.querySelectorAll(".play");
 const jumpBtn = document.querySelector("#jump");
@@ -88,7 +93,7 @@ let lottieSplashAnimation = Lottie.loadAnimation({
   renderer: "svg",
   loop: false,
   autoplay: false,
-  animationData: Splash2,
+  animationData: Splash0,
   rendererSettings: {
     id: 'splash'
   },
@@ -107,7 +112,8 @@ let lottieLoaderAnimation = Lottie.loadAnimation({
 });
 lottieLoaderAnimation.goToAndStop();
 
-let butterfly = Butterfly2;
+let butterfly = Butterfly0;
+let character = Character0;
 
 let coordinateMatrix = [
   [-234, 150, -219, 150, -434, 310, -474, 310], // B
@@ -441,7 +447,7 @@ function onVideoReady(v) {
   phraseBeamArray = [];
   let obj = document.querySelector("#loader");
   obj.style.opacity = 0;
-  themeColor = 2;
+  themeColor = 0;
   manualMode = false;
 }
 
@@ -512,26 +518,32 @@ function onAppParameterUpdate(name, value){
       case 0:
         splashAnimation = Splash0
         butterfly = Butterfly0
+        character = Character0
         break;
       case 1:
         splashAnimation = Splash1
         butterfly = Butterfly1
+        character = Character1
         break;
       case 2:
         splashAnimation = Splash2
         butterfly = Butterfly2
+        character = Character2
         break;
       case 3:
         splashAnimation = Splash3
         butterfly = Butterfly3
+        character = Character3
         break;
       case 4:
         splashAnimation = Splash4
         butterfly = Butterfly4
+        character = Character4
         break;
       case 5:
         splashAnimation = Splash5
         butterfly = Butterfly5
+        character = Character5
         break;
       default:
         break;
@@ -602,7 +614,7 @@ new P5((p5) => {
   let butterflyPic;
   let butterflySize;
   let butterflyPos;
-  let mikuPic;
+  let characterPic;
 
   let chordKeyboardFlag = true;
   if(height * 0.382 < 310 || width / 2 < 541) chordKeyboardFlag = false;
@@ -617,7 +629,7 @@ new P5((p5) => {
     butterflyPic = p5.loadImage(butterfly);
     butterflySize = 35;
     butterflyPos = p5.createVector(0,0);
-    mikuPic = p5.loadImage(MikuPic);
+    characterPic = p5.loadImage(character);
 
     for(let i = 0; i < balls.length; i++){
       var s1 = p5.random(r);
@@ -1681,15 +1693,15 @@ new P5((p5) => {
         p5.translate(0, -height * (0.618 - 0.382));
         if(position < loadEndTime + headTime){
           let progress = (position - loadEndTime) / headTime;
-          p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2 * Ease.backOut(progress), -3, mainSatelitteRevolutionRedius * Ease.backOut(progress), 6);
+          p5.image(characterPic, -mainSatelitteRevolutionRedius / 2 * Ease.backOut(progress), -3, mainSatelitteRevolutionRedius * Ease.backOut(progress), 6);
         } else if(position < loadEndTime + headTime * 2){
           let progress = (position - loadEndTime - headTime) / headTime;
-          p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2, -3 + (-mainSatelitteRevolutionRedius * 0.7 + 3) * Ease.backOut(progress), mainSatelitteRevolutionRedius, 6 + (mainSatelitteRevolutionRedius * 1.4 - 6) * Ease.backOut(progress));
+          p5.image(characterPic, -mainSatelitteRevolutionRedius / 2, -3 + (-mainSatelitteRevolutionRedius * 0.7 + 3) * Ease.backOut(progress), mainSatelitteRevolutionRedius, 6 + (mainSatelitteRevolutionRedius * 1.4 - 6) * Ease.backOut(progress));
         } else if(position > songEndTime - headTime * 2){
           let progress = (songEndTime - position - headTime) / headTime;
-          p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2, -3 + (-mainSatelitteRevolutionRedius * 0.7 + 3) * Ease.backOut(progress), mainSatelitteRevolutionRedius, 6 + (mainSatelitteRevolutionRedius * 1.4 - 6) * Ease.backOut(progress));
+          p5.image(characterPic, -mainSatelitteRevolutionRedius / 2, -3 + (-mainSatelitteRevolutionRedius * 0.7 + 3) * Ease.backOut(progress), mainSatelitteRevolutionRedius, 6 + (mainSatelitteRevolutionRedius * 1.4 - 6) * Ease.backOut(progress));
         } else {
-          p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2, -mainSatelitteRevolutionRedius * 0.7, mainSatelitteRevolutionRedius, mainSatelitteRevolutionRedius * 1.4);
+          p5.image(characterPic, -mainSatelitteRevolutionRedius / 2, -mainSatelitteRevolutionRedius * 0.7, mainSatelitteRevolutionRedius, mainSatelitteRevolutionRedius * 1.4);
         }
         p5.pop();
         p5.fill(255);
