@@ -14,9 +14,14 @@ import Lottie from "lottie-web";
 import P5 from "p5";
 import Sans from './assets/NotoSansJP-Regular.otf';
 import Mplus from './assets/MPLUS1p-Bold.ttf';
-import Splash from './assets/lottie_splash.json'
+import Splash0 from './assets/lottie_splash_0.json'
+import Splash1 from './assets/lottie_splash_1.json'
+import Splash2 from './assets/lottie_splash_2.json'
+import Splash3 from './assets/lottie_splash_3.json'
+import Splash4 from './assets/lottie_splash_4.json'
+import Splash5 from './assets/lottie_splash_5.json'
 import Loader from './assets/futur-loader.json'
-import Butterfly from './assets/butterfly_new.png'
+import Butterfly0 from './assets/butterfly_0.png'
 import MikuPic from './assets/mikuv4x.png'
 
 const playBtns = document.querySelectorAll(".play");
@@ -73,19 +78,19 @@ let manualMode = false;
 let subSatelliteRevolutionRedius = 200;
 let maxMainSatelitteRevolutionRedius = subSatelliteRevolutionRedius * 1.618;
 
-const lottieSplashAnimation = Lottie.loadAnimation({
+let lottieSplashAnimation = Lottie.loadAnimation({
   container: lottieSplashContainer,
   renderer: "svg",
   loop: false,
   autoplay: false,
-  animationData: Splash,
+  animationData: Splash4,
   rendererSettings: {
     id: 'splash'
   },
 });
 lottieSplashAnimation.goToAndStop();
 
-const lottieLoaderAnimation = Lottie.loadAnimation({
+let lottieLoaderAnimation = Lottie.loadAnimation({
   container: lottieLoaderContainer,
   renderer: "svg",
   loop: true,
@@ -273,16 +278,19 @@ const satelliteColorRgbArray = [
   [136, 225, 242]
 ];
 // Chorus歌詞用色
-const chorusLyricsColorArray = [
+const chorusLyricsColorArray = ["#ccffcc", "#ffffcc", "#ffe6cc", "#ffcce5", "#ff9999", "#ccccff"]
+// Chorus歌詞用色（RGBモード）
+const chorusLyricsColorRgbArray = [
   [204, 255, 204],
   [255, 255, 204],
   [255, 230, 204],
   [255, 204, 229],
-  [255, 204, 255],
+  [255, 153, 153],
   [204, 204, 255],
 ]
 // Chorus以外歌詞用色
 const nonChorusLyricsColorArray = ["#CCFFFF", "#ccffe6", "#e5ffcc", "#ffe6cc", "#ffffcc", "#e6ffcc"];
+// Chorus以外歌詞用色(RGBモード)
 const nonChorusLyricsColorRgbArray = [
   [204, 255, 255],
   [204, 255, 230],
@@ -426,7 +434,7 @@ function onVideoReady(v) {
   phraseBeamArray = [];
   let obj = document.querySelector("#loader");
   obj.style.opacity = 0;
-  themeColor = 0;
+  themeColor = 4;
   manualMode = false;
 }
 
@@ -492,6 +500,40 @@ function onSeek(){
 function onAppParameterUpdate(name, value){
   if(name === "themeColor"){
     themeColor = value;
+    let splashAnimation;
+    switch (value) {
+      case 0:
+        splashAnimation = Splash0
+        break;
+      case 1:
+        splashAnimation = Splash1
+        break;
+      case 2:
+        splashAnimation = Splash2
+        break;
+      case 3:
+        splashAnimation = Splash3
+        break;
+      case 4:
+        splashAnimation = Splash4
+        break;
+      case 5:
+        splashAnimation = Splash5
+        break;
+      default:
+        break;
+    }
+    lottieSplashAnimation = Lottie.loadAnimation({
+      container: lottieSplashContainer,
+      renderer: "svg",
+      loop: false,
+      autoplay: false,
+      animationData: splashAnimation,
+      rendererSettings: {
+        id: 'splash'
+      },
+    });
+    lottieSplashAnimation.goToAndStop();
   }
 }
 
@@ -559,7 +601,7 @@ new P5((p5) => {
 
     sans = p5.loadFont(Sans);
     mplus = p5.loadFont(Mplus);
-    butterflyPic = p5.loadImage(Butterfly);
+    butterflyPic = p5.loadImage(Butterfly0);
     butterflySize = 35;
     butterflyPos = p5.createVector(0,0);
     mikuPic = p5.loadImage(MikuPic);
@@ -995,7 +1037,7 @@ new P5((p5) => {
     let tailTime = 100;
     if(position > titleStartTime - headTime && position < titleStartTime){
       let progress = (titleStartTime - position) / headTime;
-      p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(1 - progress));
+      p5.fill(chorusLyricsColorRgbArray[themeColor][0], chorusLyricsColorRgbArray[themeColor][1], chorusLyricsColorRgbArray[themeColor][2], 255 * Ease.quintOut(1 - progress));
       p5.textSize(40);
       p5.text(title, rightOffset + (width - rightOffset) * Ease.circIn((titleStartTime - position) / headTime), height * 0.618);
       p5.textSize(30);
@@ -1010,7 +1052,7 @@ new P5((p5) => {
     }
     if(position > titleEndTime && position < titleEndTime + tailTime){
       let progress = (position - titleEndTime) / tailTime;
-      p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(1 - progress));
+      p5.fill(chorusLyricsColorRgbArray[themeColor][0], chorusLyricsColorRgbArray[themeColor][1], chorusLyricsColorRgbArray[themeColor][2], 255 * Ease.quintOut(1 - progress));
       p5.textSize(40);
       p5.text(title, leftOffset - leftOffset * Ease.circIn((position - titleEndTime) / tailTime), height * 0.618);
       p5.textSize(30);
@@ -1061,7 +1103,7 @@ new P5((p5) => {
               if(position > char.startTime - headTime && position < char.startTime){
                 let charStartProgress = (char.startTime - position) / headTime;
                 if(chorusIndex !== "" && chorusFlag){
-                  p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(1 - charStartProgress));
+                  p5.fill(chorusLyricsColorRgbArray[themeColor][0], chorusLyricsColorRgbArray[themeColor][1], chorusLyricsColorRgbArray[themeColor][2], 255 * Ease.quintOut(1 - charStartProgress));
                 } else {
                   p5.fill(nonChorusLyricsColorRgbArray[themeColor][0], nonChorusLyricsColorRgbArray[themeColor][1], nonChorusLyricsColorRgbArray[themeColor][2], 255 * Ease.quintOut(1 - charStartProgress));
                 }
@@ -1113,7 +1155,7 @@ new P5((p5) => {
             minCharOffsetX = 0;
             var afterProgress = (position - endTime) / tailTime;
             if(chorusIndex !== "" && chorusFlag){
-              p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(1 - afterProgress));
+              p5.fill(chorusLyricsColorRgbArray[themeColor][0], chorusLyricsColorRgbArray[themeColor][1], chorusLyricsColorRgbArray[themeColor][2], 255 * Ease.quintOut(1 - afterProgress));
             } else {
               p5.fill(nonChorusLyricsColorRgbArray[themeColor][0], nonChorusLyricsColorRgbArray[themeColor][1], nonChorusLyricsColorRgbArray[themeColor][2], 255 * Ease.quintOut(1 - afterProgress));
             }
@@ -1244,7 +1286,7 @@ new P5((p5) => {
 
                 let charProgress = (char.startTime - position) / headTime;
                 if(chorusIndex !== "" && chorusFlag){
-                  p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(1 - charProgress));
+                  p5.fill(chorusLyricsColorRgbArray[themeColor][0], chorusLyricsColorRgbArray[themeColor][1], chorusLyricsColorRgbArray[themeColor][2], 255 * Ease.quintOut(1 - charProgress));
                 } else {
                   p5.fill(nonChorusLyricsColorRgbArray[themeColor][0], nonChorusLyricsColorRgbArray[themeColor][1], nonChorusLyricsColorRgbArray[themeColor][2], 255 * Ease.quintOut(1 - charProgress));
                 }
@@ -1401,7 +1443,7 @@ new P5((p5) => {
               let beamProgress = (position - currentPhraseBeamStartTime) / tailTime;
               let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
-              p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(beamProgress));
+              p5.fill(chorusLyricsColorRgbArray[themeColor][0], chorusLyricsColorRgbArray[themeColor][1], chorusLyricsColorRgbArray[themeColor][2], 255 * Ease.quintOut(beamProgress));
               p5.textSize(35);
               let maxOffsetX = -p5.textWidth(phrase.text) / 2;
 
@@ -1423,7 +1465,7 @@ new P5((p5) => {
               let beamProgress = (position - currentPhraseBeamStartTime - tailTime) / tailTime;
               let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
-              p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2]);
+              p5.fill(chorusLyricsColorArray[themeColor]);
               p5.textSize(35);
               let maxOffsetX = -p5.textWidth(phrase.text) / 2;
 
@@ -1447,7 +1489,7 @@ new P5((p5) => {
               let beamProgress = (position - currentPhraseBeamStartTime) / tailTime;
               let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
-              p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(beamProgress));
+              p5.fill(chorusLyricsColorRgbArray[themeColor][0], chorusLyricsColorRgbArray[themeColor][1], chorusLyricsColorRgbArray[themeColor][2], 255 * Ease.quintOut(beamProgress));
               p5.textSize(35);
               let maxOffsetX = -p5.textWidth(phrase.text) / 2;
 
@@ -1469,7 +1511,7 @@ new P5((p5) => {
               let beamProgress = (position - currentPhraseBeamStartTime - tailTime) / tailTime;
               let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
-              p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2]);
+              p5.fill(chorusLyricsColorArray[themeColor]);
               p5.textSize(35);
               let maxOffsetX = -p5.textWidth(phrase.text) / 2;
 
@@ -1494,7 +1536,7 @@ new P5((p5) => {
         // Collection波形
         p5.push();
         p5.translate(-width / 2, -height * 0.618);
-        p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2]);
+        p5.fill(chorusLyricsColorArray[themeColor]);
         if(position < beamStartTime + tailTime * 2){
           let progress = (position - beamStartTime) / (tailTime * 2);
           p5.strokeWeight(progress);
@@ -1580,7 +1622,7 @@ new P5((p5) => {
               if(progress < 1 && charIndex < charCollectionArrayLength){
                 p5.push();
                 p5.translate(0, 0, 1000 * Ease.quintIn(1 - progress));
-                p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(1 - progress));
+                p5.fill(chorusLyricsColorRgbArray[themeColor][0], chorusLyricsColorRgbArray[themeColor][1], chorusLyricsColorRgbArray[themeColor][2], 255 * Ease.quintOut(1 - progress));
                 p5.text(charCollectionArray[charIndex], startPointArray[charIndex][0] * (1 - progress), startPointArray[charIndex][1] * (1 - progress));
 
                 p5.push();
