@@ -22,6 +22,11 @@ import Splash4 from './assets/lottie_splash_4.json'
 import Splash5 from './assets/lottie_splash_5.json'
 import Loader from './assets/futur-loader.json'
 import Butterfly0 from './assets/butterfly_0.png'
+import Butterfly1 from './assets/butterfly_1.png'
+import Butterfly2 from './assets/butterfly_2.png'
+import Butterfly3 from './assets/butterfly_3.png'
+import Butterfly4 from './assets/butterfly_4.png'
+import Butterfly5 from './assets/butterfly_5.png'
 import MikuPic from './assets/mikuv4x.png'
 
 const playBtns = document.querySelectorAll(".play");
@@ -83,7 +88,7 @@ let lottieSplashAnimation = Lottie.loadAnimation({
   renderer: "svg",
   loop: false,
   autoplay: false,
-  animationData: Splash0,
+  animationData: Splash2,
   rendererSettings: {
     id: 'splash'
   },
@@ -101,6 +106,8 @@ let lottieLoaderAnimation = Lottie.loadAnimation({
   },
 });
 lottieLoaderAnimation.goToAndStop();
+
+let butterfly = Butterfly2;
 
 let coordinateMatrix = [
   [-234, 150, -219, 150, -434, 310, -474, 310], // B
@@ -434,7 +441,7 @@ function onVideoReady(v) {
   phraseBeamArray = [];
   let obj = document.querySelector("#loader");
   obj.style.opacity = 0;
-  themeColor = 0;
+  themeColor = 2;
   manualMode = false;
 }
 
@@ -504,21 +511,27 @@ function onAppParameterUpdate(name, value){
     switch (value) {
       case 0:
         splashAnimation = Splash0
+        butterfly = Butterfly0
         break;
       case 1:
         splashAnimation = Splash1
+        butterfly = Butterfly1
         break;
       case 2:
         splashAnimation = Splash2
+        butterfly = Butterfly2
         break;
       case 3:
         splashAnimation = Splash3
+        butterfly = Butterfly3
         break;
       case 4:
         splashAnimation = Splash4
+        butterfly = Butterfly4
         break;
       case 5:
         splashAnimation = Splash5
+        butterfly = Butterfly5
         break;
       default:
         break;
@@ -601,7 +614,7 @@ new P5((p5) => {
 
     sans = p5.loadFont(Sans);
     mplus = p5.loadFont(Mplus);
-    butterflyPic = p5.loadImage(Butterfly0);
+    butterflyPic = p5.loadImage(butterfly);
     butterflySize = 35;
     butterflyPos = p5.createVector(0,0);
     mikuPic = p5.loadImage(MikuPic);
