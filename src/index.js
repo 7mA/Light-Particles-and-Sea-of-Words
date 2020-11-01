@@ -517,33 +517,21 @@ function onAppParameterUpdate(name, value){
     switch (value) {
       case 0:
         splashAnimation = Splash0
-        butterfly = Butterfly0
-        character = Character0
         break;
       case 1:
         splashAnimation = Splash1
-        butterfly = Butterfly1
-        character = Character1
         break;
       case 2:
         splashAnimation = Splash2
-        butterfly = Butterfly2
-        character = Character2
         break;
       case 3:
         splashAnimation = Splash3
-        butterfly = Butterfly3
-        character = Character3
         break;
       case 4:
         splashAnimation = Splash4
-        butterfly = Butterfly4
-        character = Character4
         break;
       case 5:
         splashAnimation = Splash5
-        butterfly = Butterfly5
-        character = Character5
         break;
       default:
         break;
@@ -616,6 +604,20 @@ new P5((p5) => {
   let butterflyPos;
   let characterPic;
 
+  let butterflyPic0;
+  let butterflyPic1;
+  let butterflyPic2;
+  let butterflyPic3;
+  let butterflyPic4;
+  let butterflyPic5;
+
+  let characterPic0;
+  let characterPic1;
+  let characterPic2;
+  let characterPic3;
+  let characterPic4;
+  let characterPic5;
+
   let chordKeyboardFlag = true;
   if(height * 0.382 < 310 || width / 2 < 541) chordKeyboardFlag = false;
 
@@ -629,6 +631,20 @@ new P5((p5) => {
 
     butterflySize = 35;
     butterflyPos = p5.createVector(0,0);
+
+    butterflyPic0 = p5.loadImage(Butterfly0);
+    butterflyPic1 = p5.loadImage(Butterfly1);
+    butterflyPic2 = p5.loadImage(Butterfly2);
+    butterflyPic3 = p5.loadImage(Butterfly3);
+    butterflyPic4 = p5.loadImage(Butterfly4);
+    butterflyPic5 = p5.loadImage(Butterfly5);
+
+    characterPic0 = p5.loadImage(Character0);
+    characterPic1 = p5.loadImage(Character0);
+    characterPic2 = p5.loadImage(Character0);
+    characterPic3 = p5.loadImage(Character0);
+    characterPic4 = p5.loadImage(Character0);
+    characterPic5 = p5.loadImage(Character0);
 
     for(let i = 0; i < balls.length; i++){
       var s1 = p5.random(r);
@@ -645,14 +661,40 @@ new P5((p5) => {
     }
     const position = player.timer.position;
 
+    switch (themeColor) {
+      case 0:
+        butterflyPic = butterflyPic0;
+        characterPic = characterPic0;
+        break;
+      case 1:
+        butterflyPic = butterflyPic1;
+        characterPic = characterPic1;
+        break;
+      case 2:
+        butterflyPic = butterflyPic2;
+        characterPic = characterPic2;
+        break;
+      case 3:
+        butterflyPic = butterflyPic3;
+        characterPic = characterPic3;
+        break;
+      case 4:
+        butterflyPic = butterflyPic4;
+        characterPic = characterPic4;
+        break;
+      case 5:
+        butterflyPic = butterflyPic5;
+        characterPic = characterPic5;
+        break;
+      default:
+        break;
+    }
+
     const beat = player.findBeat(position);
     const chord = player.findChord(position);
     const segment = player.findChorus(position);
     const vocalAmplitude = player.getVocalAmplitude(position);
     const valenceArousal = player.getValenceArousal(position);
-
-    butterflyPic = p5.loadImage(butterfly);
-    characterPic = p5.loadImage(character);
 
     let beatIndex;
     let beatProgress;
