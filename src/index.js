@@ -1323,6 +1323,10 @@ new P5((p5) => {
         maxCollectionVocalAmplitudeCount = Math.round(width * 0.9 / 15);
 
         outroFlag = true;
+
+        console.log("beamStartTime:" + beamStartTime);
+        console.log("loadStartTime:" + loadStartTime);
+        console.log("songEndTime:" + songEndTime);
       }
 
       // 下方からBeam Time開始Overlay
