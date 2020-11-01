@@ -1606,20 +1606,22 @@ new P5((p5) => {
         p5.text("Namir Mostafa, Natalie Yeh @LottieFiles", 0, height * 0.365);
       }
     }
-    if(position > loadStartTime && position < loadStartTime + headTime){
-      let progress = (position - loadStartTime) / headTime;
-      obj.style.opacity = progress;
-    } else if(position < loadEndTime && position > loadEndTime - tailTime){
-      let progress = (loadEndTime - position) / tailTime;
-      if(progress < 0.2) {
-        obj.style.opacity = 0;
-      } else {
+    if(loadStartTime > 0){
+      if(position > loadStartTime && position < loadStartTime + headTime){
+        let progress = (position - loadStartTime) / headTime;
         obj.style.opacity = progress;
+      } else if(position < loadEndTime && position > loadEndTime - tailTime){
+        let progress = (loadEndTime - position) / tailTime;
+        if(progress < 0.2) {
+          obj.style.opacity = 0;
+        } else {
+          obj.style.opacity = progress;
+        }
+      } else if(position > loadStartTime + headTime && position < loadEndTime - tailTime){
+        obj.style.opacity = 1;
+      } else {
+        obj.style.opacity = 0;
       }
-    } else if(position > loadStartTime + headTime && position < loadEndTime - tailTime){
-      obj.style.opacity = 1;
-    } else {
-      obj.style.opacity = 0;
     }
 
     p5.pop();
