@@ -250,12 +250,28 @@ let chordNameMatrix = [
 ]
 
 // Miku, Len, Rin, Luka, Meiko, Kaito
-const lightColorGradientArray = ["#8fd3f4", "#fafcc2", "#fff8cd", "#ffd5cd", "#feceab", "#04befe"];
-const heavyColorGradientArray = ["#84fab0", "#ccf6c8", "#ffe05d", "#efbbcf", "#ff847c", "#4481eb"];
+const lightColorGradientArray = ["#8fd3f4", "#fafcc2", "#fff8cd", "#ffd5cd", "#fda25f", "#a3d2ca"];
+const heavyColorGradientArray = ["#84fab0", "#ccf6c8", "#ffe05d", "#fff8cd", "#b83b5e", "#04befe"];
 // TODO: MIKU以外のキャラ用色を要追加
 const colorGradientArray = [
-  ["#84fab0", "#00f2fe", "#8fd3f4", "#4facfe", "#8ec5fc", "#e0c3fc"]
+  ["#84fab0", "#00f2fe", "#8fd3f4", "#4facfe", "#8ec5fc", "#e0c3fc"],
+  ["#84fab0", "#00f2fe", "#8fd3f4", "#4facfe", "#8ec5fc", "#e0c3fc"],
+  ["#84fab0", "#00f2fe", "#8fd3f4", "#4facfe", "#8ec5fc", "#e0c3fc"],
+  ["#84fab0", "#00f2fe", "#8fd3f4", "#4facfe", "#8ec5fc", "#e0c3fc"],
+  ["#84fab0", "#00f2fe", "#8fd3f4", "#4facfe", "#8ec5fc", "#e0c3fc"],
+  ["#84fab0", "#00f2fe", "#8fd3f4", "#4facfe", "#8ec5fc", "#e0c3fc"],
 ]
+// 流星、Satellite、波形用色
+const satelliteColorArray = ["#7fecad", "#edf492", "#ffe277", "#fab7b7", "#f56a79", "#88e1f2"];
+// 流星、Satellite、波形用色(RGBモード）
+const satelliteColorRgbArray = [
+  [127, 236, 173],
+  [237, 244, 146],
+  [255, 226, 119],
+  [250, 183, 183],
+  [245, 106, 121],
+  [136, 225, 242]
+];
 
 // TextAlive Player を作る
 const player = new Player({
@@ -276,12 +292,6 @@ const player = new Player({
             [5, "KAITO"],
           ],
           initialValue: 0,
-        },
-        {
-          title: "マニュアルモード",
-          name: "manualMode",
-          className: "Check",
-          initialValue: false,
         },
       ]
   },
@@ -397,7 +407,7 @@ function onVideoReady(v) {
   phraseBeamArray = [];
   let obj = document.querySelector("#loader");
   obj.style.opacity = 0;
-  themeColor = 0;
+  themeColor = 5;
   manualMode = false;
 }
 
@@ -463,8 +473,6 @@ function onSeek(){
 function onAppParameterUpdate(name, value){
   if(name === "themeColor"){
     themeColor = value;
-  } else if(name === "manualMode"){
-    manualMode = value;
   }
 }
 
@@ -643,7 +651,7 @@ new P5((p5) => {
 
     // 流星になるぞ！
     if(chorusIndex !== "" && chorusFlag){
-      p5.fill("#7fecad");
+      p5.fill(satelliteColorArray[themeColor]);
       for(let j = 0; j < meteorArray.length; j++){
         let ball = balls[meteorArray[j]];
         let currentX = ball[0] * p5.sin(frameCount / ballSpeed + ball[2]);
@@ -677,7 +685,6 @@ new P5((p5) => {
     p5.push();
     p5.noStroke();
     p5.translate(width / 2, height * 0.382);
-    p5.fill("#7fecad");
     let mainSatelitteRevolutionRedius = maxMainSatelitteRevolutionRedius;
     let maxSatelitteRedius;
     let mainSatelitteRedius;
@@ -693,7 +700,7 @@ new P5((p5) => {
         let y = - mainSatelitteRevolutionRedius * dsin + 2 * mainSatelitteRevolutionRedius * dsin * Ease.cubicOut(beatProgress - i * 0.005)
         p5.push();
         p5.translate(0, 0, p5.abs(beatProgress - 0.5));
-        p5.fill(127, 236, 173, 255 - 10 * i);
+        p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
         p5.ellipse(x, y, mainSatelitteRedius);
         p5.pop();
       }
@@ -709,7 +716,7 @@ new P5((p5) => {
         let y = mainSatelitteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) - 2 * mainSatelitteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) * (beatProgress - 0.003 * i);
         p5.push();
         p5.translate(0, 0, -p5.abs(beatProgress - 0.5));
-        p5.fill(127, 236, 173, 255 - 10 * i);
+        p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
         p5.ellipse(x, y, mainSatelitteRedius);
         p5.pop();
       }
@@ -763,7 +770,7 @@ new P5((p5) => {
     // Chorus
     p5.push();
     p5.noStroke();
-    p5.fill("#7fecad");
+    p5.fill(satelliteColorArray[themeColor]);
     if(chorusIndex !== ""){
       if(chorusFlag == false){
         if(criticalBeatIndex == -1){
@@ -781,7 +788,7 @@ new P5((p5) => {
               p5.push();
               p5.translate(0, 0, 500 * (1 - beatProgress));
               if(x > 0 && y > 0){
-                p5.fill(127, 236, 173, 255 - 10 * i);
+                p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
                 p5.ellipse(x, y, 25 + (200 - 25) * (1 - beatProgress) - i);
               }
               p5.pop();
@@ -806,7 +813,7 @@ new P5((p5) => {
               p5.push();
               p5.translate(0, 0, 500 * (1 - beatProgress));
               if(x > 0 && y > 0){
-                p5.fill(127, 236, 173, 255 - 10 * i);
+                p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
                 p5.ellipse(x, y, 15 + (200 - 15) * (1 - beatProgress) - i);
               }
               p5.pop();
@@ -849,7 +856,7 @@ new P5((p5) => {
               newy = x;
             }
             p5.push();
-            p5.fill(127, 236, 173, 255 - 10 * i);
+            p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
             p5.ellipse(newx, newy, 25 - 5 * beatProgress - i * 1.33);
             p5.pop();
           }
@@ -871,7 +878,7 @@ new P5((p5) => {
               newy = x;
             }
             p5.push();
-            p5.fill(127, 236, 173, 255 - 10 * i);
+            p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
             p5.ellipse(newx, newy, 15 + 5 * beatProgress - i);
             p5.pop();
           }
@@ -917,7 +924,7 @@ new P5((p5) => {
               p5.push();
               p5.translate(0, 0, 500 * beatProgress);
               if(x > 0 && y > 0){
-                p5.fill(127, 236, 173, 255 - 10 * i);
+                p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
                 p5.ellipse(x, y, 25 + (200 - 25) * beatProgress - i);
               }
               p5.pop();
@@ -940,7 +947,7 @@ new P5((p5) => {
               p5.push();
               p5.translate(0, 0, 500 * beatProgress);
               if(x > 0 && y > 0){
-                p5.fill(127, 236, 173, 255 - 10 * i);
+                p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
                 p5.ellipse(x, y, 15 + (200 - 15) * beatProgress - i);
               }
               p5.pop();
@@ -1301,7 +1308,7 @@ new P5((p5) => {
 
       // 間奏の声量波形
       if(position < startTime - headTime && index > 0){
-        p5.stroke("#7fecad");
+        p5.stroke(satelliteColorArray[themeColor]);
         p5.strokeWeight(2);
 
         let previousPhrase = phrase.previous;
@@ -1484,7 +1491,7 @@ new P5((p5) => {
           p5.textSize(20);
           p5.text("Collecting...", width * 0.1, height * 0.1 + 50);
         }
-        p5.stroke("#7fecad");
+        p5.stroke(satelliteColorArray[themeColor]);
         collectionVocalAmplitudeArray.push(vocalAmplitude);
         let length = collectionVocalAmplitudeArray.length
         let startX = width * 0.05;
@@ -1658,9 +1665,9 @@ new P5((p5) => {
     let y3 = coordinateMatrix[i][5];
     let x4 = coordinateMatrix[i][6];
     let y4 = coordinateMatrix[i][7];
-    let gradientStartColor = beatIndex ? p5.color(colorGradientArray[0][(beatIndex - 1) % 6]) : "";
-    let gradientMiddleColor =  beatIndex ? p5.color(colorGradientArray[0][beatIndex % 6]) : "";
-    let gradientEndColor = beatIndex ? p5.color(colorGradientArray[0][(beatIndex + 1) % 6]) : "";
+    let gradientStartColor = beatIndex ? p5.color(colorGradientArray[themeColor][(beatIndex - 1) % 6]) : "";
+    let gradientMiddleColor =  beatIndex ? p5.color(colorGradientArray[themeColor][beatIndex % 6]) : "";
+    let gradientEndColor = beatIndex ? p5.color(colorGradientArray[themeColor][(beatIndex + 1) % 6]) : "";
     let characterLightColor = p5.color(lightColorGradientArray[themeColor]);
     let characterHeavyColor = p5.color(heavyColorGradientArray[themeColor]);
     if(chordNameMatrix[i].indexOf(chordName) == -1){
