@@ -958,7 +958,8 @@ new P5((p5) => {
     let headTime = 100;
     let tailTime = 100;
     if(position > titleStartTime - headTime && position < titleStartTime){
-      p5.fill("#CCFFCC");
+      let progress = (titleStartTime - position) / headTime;
+      p5.fill(204, 255, 204, 255 * Ease.quintOut(1 - progress));
       p5.textSize(40);
       p5.text(title, rightOffset + (width - rightOffset) * Ease.circIn((titleStartTime - position) / headTime), height * 0.618);
       p5.textSize(30);
@@ -972,7 +973,8 @@ new P5((p5) => {
       p5.text(artist, width / 2 + 60 * (position - (titleEndTime + titleStartTime) / 2) / (titleEndTime - titleStartTime), height * 0.618 + 60);
     }
     if(position > titleEndTime && position < titleEndTime + tailTime){
-      p5.fill("#CCFFCC");
+      let progress = (position - titleEndTime) / tailTime;
+      p5.fill(204, 255, 204, 255 * Ease.quintOut(1 - progress));
       p5.textSize(40);
       p5.text(title, leftOffset - leftOffset * Ease.circIn((position - titleEndTime) / tailTime), height * 0.618);
       p5.textSize(30);
@@ -1021,12 +1023,12 @@ new P5((p5) => {
 
               // 入場
               if(position > char.startTime - headTime && position < char.startTime){
-                if(chorusIndex !== "" && chorusFlag){
-                  p5.fill("#CCFFCC");
-                } else {
-                  p5.fill("#CCFFFF");
-                }
                 let charStartProgress = (char.startTime - position) / headTime;
+                if(chorusIndex !== "" && chorusFlag){
+                  p5.fill(204, 255, 204, 255 * Ease.quintOut(1 - charStartProgress));
+                } else {
+                  p5.fill(204, 255, 255, 255 * Ease.quintOut(1 - charStartProgress));
+                }
                 let charOffsetX = minCharOffsetX + offsetX + width * Ease.cubicIn(charStartProgress);
                 let angle = p5.TWO_PI/360 * (45 - 0.3 * i) * Ease.cubicIn(charStartProgress)
                 p5.rotateY(angle);
@@ -1075,9 +1077,9 @@ new P5((p5) => {
             minCharOffsetX = 0;
             var afterProgress = (position - endTime) / tailTime;
             if(chorusIndex !== "" && chorusFlag){
-              p5.fill("#CCFFCC");
+              p5.fill(204, 255, 204, 255 * Ease.quintOut(1 - afterProgress));
             } else {
-              p5.fill("#CCFFFF");
+              p5.fill(204, 255, 255, 255 * Ease.quintOut(1 - afterProgress));
             }
             for(let i = 0; i < phrase.charCount; i++){
               let angle = -p5.TWO_PI/360 * (45 - i) * Ease.cubicIn(afterProgress);
@@ -1157,7 +1159,7 @@ new P5((p5) => {
               }
             } else { // 退場ステップ2（通常退場）
               var afterProgress = (position - 100 - endTime) / (tailTime - 100);
-              p5.fill("#CCFFFF");
+              p5.fill(204, 255, 255, 255 * Ease.quintOut(1 - afterProgress));
               for(let i = 0; i < phrase.charCount; i++){
 
                 let angle = -p5.TWO_PI/360 * (45 - i) * Ease.cubicIn(afterProgress);
@@ -1204,12 +1206,12 @@ new P5((p5) => {
 
               if(position > char.startTime - headTime && position < char.startTime){
 
-                if(chorusIndex !== "" && chorusFlag){
-                  p5.fill("#CCFFCC");
-                } else {
-                  p5.fill("#CCFFFF");
-                }
                 let charProgress = (char.startTime - position) / headTime;
+                if(chorusIndex !== "" && chorusFlag){
+                  p5.fill(204, 255, 204, 255 * Ease.quintOut(1 - charProgress));
+                } else {
+                  p5.fill(204, 255, 255, 255 * Ease.quintOut(1 - charProgress));
+                }
                 let nextCharOffsetX = nextMinCharOffsetX + nextOffsetX + width * Ease.cubicIn(charProgress);
                 let angle = p5.TWO_PI/360 * (45 - 0.3 * i) * Ease.cubicIn(charProgress)
                 p5.rotateY(angle);
@@ -1363,7 +1365,7 @@ new P5((p5) => {
               let beamProgress = (position - currentPhraseBeamStartTime) / tailTime;
               let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
-              p5.fill("#CCFFCC");
+              p5.fill(204, 255, 204, 255 * Ease.quintOut(1 - beamProgress));
               p5.textSize(35);
               let maxOffsetX = -p5.textWidth(phrase.text) / 2;
 
@@ -1409,7 +1411,7 @@ new P5((p5) => {
               let beamProgress = (position - currentPhraseBeamStartTime) / tailTime;
               let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
-              p5.fill("#CCFFCC");
+              p5.fill(204, 255, 204, 255 * Ease.quintOut(1 - beamProgress));
               p5.textSize(35);
               let maxOffsetX = -p5.textWidth(phrase.text) / 2;
 
