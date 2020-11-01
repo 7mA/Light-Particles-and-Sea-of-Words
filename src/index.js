@@ -84,6 +84,7 @@ let phraseBeamArray = [];
 
 let themeColor = 0;
 let manualMode = false;
+let fpsFlag = true;
 
 let subSatelliteRevolutionRedius = 200;
 let maxMainSatelitteRevolutionRedius = subSatelliteRevolutionRedius * 1.618;
@@ -333,6 +334,18 @@ const player = new Player({
           ],
           initialValue: 0,
         },
+        {
+          title: "キーボードマニュアルモード(キーボードが表示される場合のみ有効)",
+          name: "manualMode",
+          className: "Check",
+          initialValue: false,
+        },
+        {
+          title: "FPS表示",
+          name: "fpsFlag",
+          className: "Check",
+          initialValue: true,
+        },
       ]
   },
   mediaElement: document.querySelector("#media"),
@@ -449,6 +462,7 @@ function onVideoReady(v) {
   obj.style.opacity = 0;
   themeColor = 0;
   manualMode = false;
+  fpsFlag = true;
 }
 
 /**
@@ -547,6 +561,10 @@ function onAppParameterUpdate(name, value){
       },
     });
     lottieSplashAnimation.goToAndStop();
+  } else if(name === "manualMode"){
+    manualMode = value;
+  } else if(name === "fpsFlag"){
+    fpsFlag = value;
   }
 }
 
@@ -640,11 +658,11 @@ new P5((p5) => {
     butterflyPic5 = p5.loadImage(Butterfly5);
 
     characterPic0 = p5.loadImage(Character0);
-    characterPic1 = p5.loadImage(Character0);
-    characterPic2 = p5.loadImage(Character0);
-    characterPic3 = p5.loadImage(Character0);
-    characterPic4 = p5.loadImage(Character0);
-    characterPic5 = p5.loadImage(Character0);
+    characterPic1 = p5.loadImage(Character1);
+    characterPic2 = p5.loadImage(Character2);
+    characterPic3 = p5.loadImage(Character3);
+    characterPic4 = p5.loadImage(Character4);
+    characterPic5 = p5.loadImage(Character5);
 
     for(let i = 0; i < balls.length; i++){
       var s1 = p5.random(r);
