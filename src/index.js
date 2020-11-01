@@ -380,11 +380,11 @@ function onVideoReady(v) {
 
   ballSpeed = 40 * (1 - medianArousal);
 
-  lyricStartTime = player.video.firstChar.startTime;
+  lyricStartTime = v.firstChar.startTime;
   sphereCompleteTime = lyricStartTime / 4;
   titleStartTime = lyricStartTime / 2;
   titleEndTime = lyricStartTime * 3 / 4;
-  endTime = player.video.duration;
+  endTime = v.duration;
 }
 
 /**
