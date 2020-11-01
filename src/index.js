@@ -407,7 +407,7 @@ function onVideoReady(v) {
   phraseBeamArray = [];
   let obj = document.querySelector("#loader");
   obj.style.opacity = 0;
-  themeColor = 5;
+  themeColor = 0;
   manualMode = false;
 }
 
