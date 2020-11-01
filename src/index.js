@@ -83,7 +83,7 @@ let lottieSplashAnimation = Lottie.loadAnimation({
   renderer: "svg",
   loop: false,
   autoplay: false,
-  animationData: Splash4,
+  animationData: Splash0,
   rendererSettings: {
     id: 'splash'
   },
@@ -434,7 +434,7 @@ function onVideoReady(v) {
   phraseBeamArray = [];
   let obj = document.querySelector("#loader");
   obj.style.opacity = 0;
-  themeColor = 4;
+  themeColor = 0;
   manualMode = false;
 }
 
