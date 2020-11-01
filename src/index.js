@@ -622,6 +622,7 @@ new P5((p5) => {
   let butterflyPos;
   let characterPic;
   let characterName;
+  let characterAspectRatio;
 
   let butterflyPic0;
   let butterflyPic1;
@@ -685,31 +686,37 @@ new P5((p5) => {
         butterflyPic = butterflyPic0;
         characterPic = characterPic0;
         characterName = "初音ミク";
+        characterAspectRatio = 1.4;
         break;
       case 1:
         butterflyPic = butterflyPic1;
         characterPic = characterPic1;
         characterName = "鏡音レン";
+        characterAspectRatio = 1.6;
         break;
       case 2:
         butterflyPic = butterflyPic2;
         characterPic = characterPic2;
         characterName = "鏡音リン";
+        characterAspectRatio = 1.65;
         break;
       case 3:
         butterflyPic = butterflyPic3;
         characterPic = characterPic3;
         characterName = "巡音ルカ";
+        characterAspectRatio = 1.43;
         break;
       case 4:
         butterflyPic = butterflyPic4;
         characterPic = characterPic4;
         characterName = "MEIKO";
+        characterAspectRatio = 1.35;
         break;
       case 5:
         butterflyPic = butterflyPic5;
         characterPic = characterPic5;
         characterName = "KAITO";
+        characterAspectRatio = 1.42;
         break;
       default:
         break;
@@ -1765,12 +1772,12 @@ new P5((p5) => {
           p5.image(characterPic, -mainSatelitteRevolutionRedius / 2 * Ease.backOut(progress), -3, mainSatelitteRevolutionRedius * Ease.backOut(progress), 6);
         } else if(position < loadEndTime + headTime * 2){
           let progress = (position - loadEndTime - headTime) / headTime;
-          p5.image(characterPic, -mainSatelitteRevolutionRedius / 2, -3 + (-mainSatelitteRevolutionRedius * 0.7 + 3) * Ease.backOut(progress), mainSatelitteRevolutionRedius, 6 + (mainSatelitteRevolutionRedius * 1.4 - 6) * Ease.backOut(progress));
+          p5.image(characterPic, -mainSatelitteRevolutionRedius / 2, -3 + (-mainSatelitteRevolutionRedius * characterAspectRatio / 2 + 3) * Ease.backOut(progress), mainSatelitteRevolutionRedius, 6 + (mainSatelitteRevolutionRedius * characterAspectRatio - 6) * Ease.backOut(progress));
         } else if(position > songEndTime - headTime * 2){
           let progress = (songEndTime - position - headTime) / headTime;
-          p5.image(characterPic, -mainSatelitteRevolutionRedius / 2, -3 + (-mainSatelitteRevolutionRedius * 0.7 + 3) * Ease.backOut(progress), mainSatelitteRevolutionRedius, 6 + (mainSatelitteRevolutionRedius * 1.4 - 6) * Ease.backOut(progress));
+          p5.image(characterPic, -mainSatelitteRevolutionRedius / 2, -3 + (-mainSatelitteRevolutionRedius * characterAspectRatio / 2 + 3) * Ease.backOut(progress), mainSatelitteRevolutionRedius, 6 + (mainSatelitteRevolutionRedius * characterAspectRatio - 6) * Ease.backOut(progress));
         } else {
-          p5.image(characterPic, -mainSatelitteRevolutionRedius / 2, -mainSatelitteRevolutionRedius * 0.7, mainSatelitteRevolutionRedius, mainSatelitteRevolutionRedius * 1.4);
+          p5.image(characterPic, -mainSatelitteRevolutionRedius / 2, -mainSatelitteRevolutionRedius * characterAspectRatio / 2, mainSatelitteRevolutionRedius, mainSatelitteRevolutionRedius * characterAspectRatio);
         }
         p5.pop();
         p5.fill(255);
