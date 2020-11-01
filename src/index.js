@@ -65,6 +65,7 @@ let phraseCount;
 let songEndTime;
 let phraseBeamCount;
 let collectionVocalAmplitudeArray = [];
+  let phraseBeamArray = [];
 
 let subSatelliteRevolutionRedius = 200;
 let maxMainSatelitteRevolutionRedius = subSatelliteRevolutionRedius * 1.618;
@@ -388,7 +389,18 @@ function onVideoReady(v) {
   titleStartTime = lyricStartTime / 2;
   titleEndTime = lyricStartTime * 3 / 4;
   songEndTime = video.duration;
+
   outroFlag = false;
+  outroStartTime = 0;
+  beamStartTime = 0;
+  beamEndTime = 0;
+  loadStartTime = 0;
+  loadEndTime = 0;
+  loadTime = 0;
+  loadFlag = false;
+  phraseCount = 0;
+  phraseBeamCount = 0;
+  phraseBeamArray = [];
 }
 
 /**
@@ -485,7 +497,6 @@ new P5((p5) => {
   p5.disableFriendlyErrors = true;
 
   let meteorArray = [];
-  let phraseBeamArray = [];
   let charCollectionArray = [];
   let charCollectionArrayLength;
   let startPointArray = [];
