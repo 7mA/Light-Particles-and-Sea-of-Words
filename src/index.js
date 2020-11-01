@@ -626,10 +626,9 @@ new P5((p5) => {
 
     sans = p5.loadFont(Sans);
     mplus = p5.loadFont(Mplus);
-    butterflyPic = p5.loadImage(butterfly);
+
     butterflySize = 35;
     butterflyPos = p5.createVector(0,0);
-    characterPic = p5.loadImage(character);
 
     for(let i = 0; i < balls.length; i++){
       var s1 = p5.random(r);
@@ -651,6 +650,9 @@ new P5((p5) => {
     const segment = player.findChorus(position);
     const vocalAmplitude = player.getVocalAmplitude(position);
     const valenceArousal = player.getValenceArousal(position);
+
+    butterflyPic = p5.loadImage(butterfly);
+    characterPic = p5.loadImage(character);
 
     let beatIndex;
     let beatProgress;
