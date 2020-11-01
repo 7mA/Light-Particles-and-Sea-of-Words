@@ -247,11 +247,11 @@ let chordNameMatrix = [
 ]
 
 // Miku, Len, Rin, Luka, Meiko, Kaito
-const lightColorGradientArray = ["#8fd3f4", "#fda085", "#f9d423", "#ff7eb3", "#ffb199", "#04befe"];
-const heavyColorGradientArray = ["#84fab0", "#f6d365", "#f83600", "#ff758c", "#ff0844", "#4481eb"];
+const lightColorGradientArray = ["#8fd3f4", "#fafcc2", "#fff8cd", "#ffd5cd", "#feceab", "#04befe"];
+const heavyColorGradientArray = ["#84fab0", "#ccf6c8", "#ffe05d", "#efbbcf", "#ff847c", "#4481eb"];
 // TODO: MIKU以外のキャラ用色を要追加
 const colorGradientArray = [
-  ["#8fd3f4", "#84fab0", "#4facfe", "#00f2fe", "#e0c3fc", "#8ec5fc"]
+  ["#84fab0", "#00f2fe", "#8fd3f4", "#4facfe", "#8ec5fc", "#e0c3fc"]
 ]
 
 // TextAlive Player を作る
@@ -259,42 +259,42 @@ const player = new Player({
   app: {
     appAuthor: "Kaku",
     appName: "Light Particles and Sea of Words",
+    parameters: [
+        {
+          title: "フォントサイズ",
+          name: "fontSize",
+          className: "Slider",
+          params: [0, 100],
+          initialValue: 70,
+        },
+        {
+          title: "テキスト色",
+          name: "color",
+          className: "Color",
+          initialValue: { r: 31, g: 67, b: 145 },
+          // initialValue: "#1f4391" // 文字列でも動作します
+        },
+        {
+          title: "ダークモード",
+          name: "darkMode",
+          className: "Check",
+          initialValue: false,
+        },
+        {
+          title: "フォントのスタイル",
+          name: "fontStyle",
+          className: "Select",
+          params: [
+            ["sans-serif", "サンセリフ (ゴシック体)"],
+            ["serif", "セリフ (明朝体)"],
+          ],
+          initialValue: "sans-serif",
+        },
+      ]
   },
   mediaElement: document.querySelector("#media"),
   valenceArousalEnabled: true,
   vocalAmplitudeEnabled: true,
-  parameters: [
-      {
-        title: "フォントサイズ",
-        name: "fontSize",
-        className: "Slider",
-        params: [0, 100],
-        initialValue: 70,
-      },
-      {
-        title: "テキスト色",
-        name: "color",
-        className: "Color",
-        initialValue: { r: 31, g: 67, b: 145 },
-        // initialValue: "#1f4391" // 文字列でも動作します
-      },
-      {
-        title: "ダークモード",
-        name: "darkMode",
-        className: "Check",
-        initialValue: false,
-      },
-      {
-        title: "フォントのスタイル",
-        name: "fontStyle",
-        className: "Select",
-        params: [
-          ["sans-serif", "サンセリフ (ゴシック体)"],
-          ["serif", "セリフ (明朝体)"],
-        ],
-        initialValue: "sans-serif",
-      },
-    ],
 });
 
 // TextAlive Player のイベントリスナを登録する
@@ -1365,7 +1365,7 @@ new P5((p5) => {
               let beamProgress = (position - currentPhraseBeamStartTime) / tailTime;
               let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
-              p5.fill(204, 255, 204, 255 * Ease.quintOut(1 - beamProgress));
+              p5.fill(204, 255, 204, 255 * Ease.quintOut(beamProgress));
               p5.textSize(35);
               let maxOffsetX = -p5.textWidth(phrase.text) / 2;
 
@@ -1411,7 +1411,7 @@ new P5((p5) => {
               let beamProgress = (position - currentPhraseBeamStartTime) / tailTime;
               let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
-              p5.fill(204, 255, 204, 255 * Ease.quintOut(1 - beamProgress));
+              p5.fill(204, 255, 204, 255 * Ease.quintOut(beamProgress));
               p5.textSize(35);
               let maxOffsetX = -p5.textWidth(phrase.text) / 2;
 
@@ -1651,8 +1651,8 @@ new P5((p5) => {
     let gradientStartColor = beatIndex ? p5.color(colorGradientArray[0][(beatIndex - 1) % 6]) : "";
     let gradientMiddleColor =  beatIndex ? p5.color(colorGradientArray[0][beatIndex % 6]) : "";
     let gradientEndColor = beatIndex ? p5.color(colorGradientArray[0][(beatIndex + 1) % 6]) : "";
-    let characterLightColor = p5.color(lightColorGradientArray[0]);
-    let characterHeavyColor = p5.color(heavyColorGradientArray[0]);
+    let characterLightColor = p5.color(lightColorGradientArray[5]);
+    let characterHeavyColor = p5.color(heavyColorGradientArray[5]);
     if(chordNameMatrix[i].indexOf(chordName) == -1){
       if(chorusIndex === "" || !chorusFlag){
         p5.fill("#758a99");
