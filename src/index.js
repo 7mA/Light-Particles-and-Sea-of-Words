@@ -621,6 +621,7 @@ new P5((p5) => {
   let butterflySize;
   let butterflyPos;
   let characterPic;
+  let characterName;
 
   let butterflyPic0;
   let butterflyPic1;
@@ -683,26 +684,32 @@ new P5((p5) => {
       case 0:
         butterflyPic = butterflyPic0;
         characterPic = characterPic0;
+        characterName = "初音ミク";
         break;
       case 1:
         butterflyPic = butterflyPic1;
         characterPic = characterPic1;
+        characterName = "鏡音レン";
         break;
       case 2:
         butterflyPic = butterflyPic2;
         characterPic = characterPic2;
+        characterName = "鏡音リン";
         break;
       case 3:
         butterflyPic = butterflyPic3;
         characterPic = characterPic3;
+        characterName = "巡音ルカ";
         break;
       case 4:
         butterflyPic = butterflyPic4;
         characterPic = characterPic4;
+        characterName = "MEIKO";
         break;
       case 5:
         butterflyPic = butterflyPic5;
         characterPic = characterPic5;
+        characterName = "KAITO";
         break;
       default:
         break;
@@ -1769,7 +1776,7 @@ new P5((p5) => {
         p5.fill(255);
         p5.textSize(10 * heightProportion);
         p5.textFont(sans);
-        p5.text("「初音ミク」はクリプトン・フューチャー・メディア株式会社の著作物です。Crypton Future Media, INC. www.piapro.net", 0, height * 0.350)
+        p5.text("「" + characterName + "」はクリプトン・フューチャー・メディア株式会社の著作物です。Crypton Future Media, INC. www.piapro.net", 0, height * 0.350)
         p5.text("Namir Mostafa, Natalie Yeh @LottieFiles", 0, height * 0.365);
       }
     }
@@ -1794,13 +1801,15 @@ new P5((p5) => {
     p5.pop();
 
     // キャンバス左下にFPSを描画(小数点以下２桁を四捨五入)
-    let fps = p5.frameRate();
-    if(fps < 24){
-      p5.fill("#ff0844");
-    } else {
-      p5.fill(255);
+    if(fpsFlag){
+      let fps = p5.frameRate();
+      if(fps < 24){
+        p5.fill("#ff0844");
+      } else {
+        p5.fill(255);
+      }
+      p5.text("FPS: " + fps.toFixed(2), 40, height - 10);
     }
-    p5.text("FPS: " + fps.toFixed(2), 40, height - 10);
   };
 
   // i: 0 ~ 12 -> B, C, C#, ..., A, A#, B
