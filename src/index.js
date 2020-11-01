@@ -330,8 +330,8 @@ function onAppReady(app) {
     // 歌詞頭出しボタン
     jumpBtn.addEventListener(
       "click",
-      () => player.video && player.requestMediaSeek(player.video.firstChar.startTime)
-      // () => player.video && player.requestMediaSeek(player.video.lastPhrase.startTime)
+      // () => player.video && player.requestMediaSeek(player.video.firstChar.startTime)
+      () => player.video && player.requestMediaSeek(player.video.lastPhrase.startTime)
     );
 
     // 一時停止ボタン
@@ -388,7 +388,7 @@ function onVideoReady(v) {
   titleStartTime = lyricStartTime / 2;
   titleEndTime = lyricStartTime * 3 / 4;
   songEndTime = video.duration;
-  console.log(songEndTime);
+  outroFlag = false;
 }
 
 /**
