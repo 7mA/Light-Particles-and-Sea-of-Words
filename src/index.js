@@ -62,7 +62,7 @@ let loadEndTime = 0;
 let loadTime = 0;
 let loadFlag = false;
 let phraseCount;
-let endTime;
+let songEndTime;
 let phraseBeamCount;
 let collectionVocalAmplitudeArray = [];
 
@@ -387,7 +387,8 @@ function onVideoReady(v) {
   sphereCompleteTime = lyricStartTime / 4;
   titleStartTime = lyricStartTime / 2;
   titleEndTime = lyricStartTime * 3 / 4;
-  endTime = video.duration;
+  songEndTime = video.duration;
+  console.log(songEndTime);
 }
 
 /**
@@ -1304,14 +1305,14 @@ new P5((p5) => {
       }
     }
     else {　// Outro
-      if(!outroFlag && position < endTime){
+      if(!outroFlag && position < songEndTime){
         outroStartTime = position;
         phraseCount = video.phraseCount;
-        phraseBeamCount = (endTime - outroStartTime) * 0.3 / outroBeamTime;
+        phraseBeamCount = (songEndTime - outroStartTime) * 0.3 / outroBeamTime;
         beamStartTime = outroStartTime;
-        beamEndTime = outroStartTime + (endTime - outroStartTime) * 0.3;
-        loadStartTime = outroStartTime + (endTime - outroStartTime) * 0.3;
-        loadEndTime = outroStartTime + (endTime - outroStartTime) * 0.6;
+        beamEndTime = outroStartTime + (songEndTime - outroStartTime) * 0.3;
+        loadStartTime = outroStartTime + (songEndTime - outroStartTime) * 0.3;
+        loadEndTime = outroStartTime + (songEndTime - outroStartTime) * 0.6;
         for(let i = 0; i < phraseBeamCount; i++){
           let index = Math.round(p5.random(phraseCount));
           while(phraseBeamArray.indexOf(index) !== -1) index = Math.round(p5.random(phraseCount));
@@ -1483,7 +1484,7 @@ new P5((p5) => {
       // Outroローディング
       if(position > loadStartTime && position < loadEndTime){
         let charFlightTime = 1000;
-        if(!loadFlag && position < endTime){
+        if(!loadFlag && position < songEndTime){
           lottieLoaderAnimation.setSpeed(1);
           lottieLoaderAnimation.goToAndPlay(0);
           obj.style.marginLeft = width / 2 - 108;
@@ -1569,7 +1570,7 @@ new P5((p5) => {
       }
 
       //Outroキャラ輪郭画像
-      if(position > loadEndTime && outroFlag && position < endTime - headTime){
+      if(position > loadEndTime && outroFlag && position < songEndTime - headTime){
         p5.push();
         p5.translate(0, -height * (0.618 - 0.382));
         if(position < loadEndTime + headTime){
@@ -1578,8 +1579,8 @@ new P5((p5) => {
         } else if(position < loadEndTime + headTime * 2){
           let progress = (position - loadEndTime - headTime) / headTime;
           p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2, -3 + (-mainSatelitteRevolutionRedius * 0.7 + 3) * Ease.backOut(progress), mainSatelitteRevolutionRedius, 6 + (mainSatelitteRevolutionRedius * 1.4 - 6) * Ease.backOut(progress));
-        } else if(position > endTime - headTime * 2){
-          let progress = (endTime - position - headTime) / headTime;
+        } else if(position > songEndTime - headTime * 2){
+          let progress = (songEndTime - position - headTime) / headTime;
           p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2, -3 + (-mainSatelitteRevolutionRedius * 0.7 + 3) * Ease.backOut(progress), mainSatelitteRevolutionRedius, 6 + (mainSatelitteRevolutionRedius * 1.4 - 6) * Ease.backOut(progress));
         } else {
           p5.image(mikuPic, -mainSatelitteRevolutionRedius / 2, -mainSatelitteRevolutionRedius * 0.7, mainSatelitteRevolutionRedius, mainSatelitteRevolutionRedius * 1.4);
