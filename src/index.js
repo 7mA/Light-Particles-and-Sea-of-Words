@@ -272,6 +272,25 @@ const satelliteColorRgbArray = [
   [245, 106, 121],
   [136, 225, 242]
 ];
+// Chorus歌詞用色
+const chorusLyricsColorArray = [
+  [204, 255, 204],
+  [255, 255, 204],
+  [255, 230, 204],
+  [255, 204, 229],
+  [255, 204, 255],
+  [204, 204, 255],
+]
+// Chorus以外歌詞用色
+const nonChorusLyricsColorArray = ["#CCFFFF", "#ccffe6", "#e5ffcc", "#ffe6cc", "#ffffcc", "#e6ffcc"];
+const nonChorusLyricsColorRgbArray = [
+  [204, 255, 255],
+  [204, 255, 230],
+  [229, 255, 204],
+  [255, 230, 204],
+  [255, 255, 204],
+  [230, 255, 204]
+]
 
 // TextAlive Player を作る
 const player = new Player({
@@ -407,7 +426,7 @@ function onVideoReady(v) {
   phraseBeamArray = [];
   let obj = document.querySelector("#loader");
   obj.style.opacity = 0;
-  themeColor = 0;
+  themeColor = 4;
   manualMode = false;
 }
 
@@ -976,7 +995,7 @@ new P5((p5) => {
     let tailTime = 100;
     if(position > titleStartTime - headTime && position < titleStartTime){
       let progress = (titleStartTime - position) / headTime;
-      p5.fill(204, 255, 204, 255 * Ease.quintOut(1 - progress));
+      p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(1 - progress));
       p5.textSize(40);
       p5.text(title, rightOffset + (width - rightOffset) * Ease.circIn((titleStartTime - position) / headTime), height * 0.618);
       p5.textSize(30);
@@ -991,7 +1010,7 @@ new P5((p5) => {
     }
     if(position > titleEndTime && position < titleEndTime + tailTime){
       let progress = (position - titleEndTime) / tailTime;
-      p5.fill(204, 255, 204, 255 * Ease.quintOut(1 - progress));
+      p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(1 - progress));
       p5.textSize(40);
       p5.text(title, leftOffset - leftOffset * Ease.circIn((position - titleEndTime) / tailTime), height * 0.618);
       p5.textSize(30);
@@ -1042,9 +1061,9 @@ new P5((p5) => {
               if(position > char.startTime - headTime && position < char.startTime){
                 let charStartProgress = (char.startTime - position) / headTime;
                 if(chorusIndex !== "" && chorusFlag){
-                  p5.fill(204, 255, 204, 255 * Ease.quintOut(1 - charStartProgress));
+                  p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(1 - charStartProgress));
                 } else {
-                  p5.fill(204, 255, 255, 255 * Ease.quintOut(1 - charStartProgress));
+                  p5.fill(nonChorusLyricsColorRgbArray[themeColor][0], nonChorusLyricsColorRgbArray[themeColor][1], nonChorusLyricsColorRgbArray[themeColor][2], 255 * Ease.quintOut(1 - charStartProgress));
                 }
                 let charOffsetX = minCharOffsetX + offsetX + width * Ease.cubicIn(charStartProgress);
                 let angle = p5.TWO_PI/360 * (45 - 0.3 * i) * Ease.cubicIn(charStartProgress)
@@ -1094,9 +1113,9 @@ new P5((p5) => {
             minCharOffsetX = 0;
             var afterProgress = (position - endTime) / tailTime;
             if(chorusIndex !== "" && chorusFlag){
-              p5.fill(204, 255, 204, 255 * Ease.quintOut(1 - afterProgress));
+              p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(1 - afterProgress));
             } else {
-              p5.fill(204, 255, 255, 255 * Ease.quintOut(1 - afterProgress));
+              p5.fill(nonChorusLyricsColorRgbArray[themeColor][0], nonChorusLyricsColorRgbArray[themeColor][1], nonChorusLyricsColorRgbArray[themeColor][2], 255 * Ease.quintOut(1 - afterProgress));
             }
             for(let i = 0; i < phrase.charCount; i++){
               let angle = -p5.TWO_PI/360 * (45 - i) * Ease.cubicIn(afterProgress);
@@ -1129,7 +1148,7 @@ new P5((p5) => {
               if (position > char.startTime) {
                 if(position < char.endTime){
                   let pos = char.parent.pos;
-                  p5.fill("#CCFFFF");
+                  p5.fill(nonChorusLyricsColorArray[themeColor]);
                   let wordIndex = video.findIndex(char.parent);
                   if(pos === "N" || pos === "PN"){
                     splashOnPos(position, wordIndex, minCharOffsetX + typeOffsetX + width / 2 - 158, height * 0.618 + 60 - 150);
@@ -1152,7 +1171,7 @@ new P5((p5) => {
               char = char.next;
             }
             if(frameCount % 15 < 8){
-              p5.fill("#CCFFFF");
+              p5.fill(nonChorusLyricsColorArray[themeColor]);
               p5.text("_", minCharOffsetX + typeOffsetX, 60);
             }
           }
@@ -1168,7 +1187,7 @@ new P5((p5) => {
               for(let i = 0; i < phrase.charCount; i++){
                 let upliftProgress = (position - endTime) / 100;
                 p5.textSize(35);
-                p5.fill("#CCFFFF");
+                p5.fill(nonChorusLyricsColorArray[themeColor]);
                 p5.text(char.text, minCharOffsetX + typeOffsetX, 60 * (1 - Ease.cubicInOut(upliftProgress)));
 
                 minCharOffsetX += p5.textWidth(char.text);
@@ -1176,7 +1195,7 @@ new P5((p5) => {
               }
             } else { // 退場ステップ2（通常退場）
               var afterProgress = (position - 100 - endTime) / (tailTime - 100);
-              p5.fill(204, 255, 255, 255 * Ease.quintOut(1 - afterProgress));
+              p5.fill(nonChorusLyricsColorRgbArray[themeColor][0], nonChorusLyricsColorRgbArray[themeColor][1], nonChorusLyricsColorRgbArray[themeColor][2], 255 * Ease.quintOut(1 - afterProgress));
               for(let i = 0; i < phrase.charCount; i++){
 
                 let angle = -p5.TWO_PI/360 * (45 - i) * Ease.cubicIn(afterProgress);
@@ -1225,9 +1244,9 @@ new P5((p5) => {
 
                 let charProgress = (char.startTime - position) / headTime;
                 if(chorusIndex !== "" && chorusFlag){
-                  p5.fill(204, 255, 204, 255 * Ease.quintOut(1 - charProgress));
+                  p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(1 - charProgress));
                 } else {
-                  p5.fill(204, 255, 255, 255 * Ease.quintOut(1 - charProgress));
+                  p5.fill(nonChorusLyricsColorRgbArray[themeColor][0], nonChorusLyricsColorRgbArray[themeColor][1], nonChorusLyricsColorRgbArray[themeColor][2], 255 * Ease.quintOut(1 - charProgress));
                 }
                 let nextCharOffsetX = nextMinCharOffsetX + nextOffsetX + width * Ease.cubicIn(charProgress);
                 let angle = p5.TWO_PI/360 * (45 - 0.3 * i) * Ease.cubicIn(charProgress)
@@ -1279,7 +1298,7 @@ new P5((p5) => {
                 p5.textSize(35);
                 if(position < char.endTime){
                   let pos = char.parent.pos;
-                  p5.fill("#CCFFFF");
+                  p5.fill(nonChorusLyricsColorArray[themeColor]);
                   let wordIndex = video.findIndex(char.parent);
                   if(pos === "N" || pos === "PN"){
                     splashOnPos(position, wordIndex, nextMinCharOffsetX + nextTypeOffsetX + width / 2 - 158, height * 0.618 + 60 - 150);
@@ -1382,7 +1401,7 @@ new P5((p5) => {
               let beamProgress = (position - currentPhraseBeamStartTime) / tailTime;
               let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
-              p5.fill(204, 255, 204, 255 * Ease.quintOut(beamProgress));
+              p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(beamProgress));
               p5.textSize(35);
               let maxOffsetX = -p5.textWidth(phrase.text) / 2;
 
@@ -1404,7 +1423,7 @@ new P5((p5) => {
               let beamProgress = (position - currentPhraseBeamStartTime - tailTime) / tailTime;
               let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
-              p5.fill("#CCFFCC");
+              p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2]);
               p5.textSize(35);
               let maxOffsetX = -p5.textWidth(phrase.text) / 2;
 
@@ -1428,7 +1447,7 @@ new P5((p5) => {
               let beamProgress = (position - currentPhraseBeamStartTime) / tailTime;
               let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
-              p5.fill(204, 255, 204, 255 * Ease.quintOut(beamProgress));
+              p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(beamProgress));
               p5.textSize(35);
               let maxOffsetX = -p5.textWidth(phrase.text) / 2;
 
@@ -1450,7 +1469,7 @@ new P5((p5) => {
               let beamProgress = (position - currentPhraseBeamStartTime - tailTime) / tailTime;
               let phrase = video.getPhrase(phraseBeamArray[currentPhraseBeamIndex]);
 
-              p5.fill("#CCFFCC");
+              p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2]);
               p5.textSize(35);
               let maxOffsetX = -p5.textWidth(phrase.text) / 2;
 
@@ -1475,7 +1494,7 @@ new P5((p5) => {
         // Collection波形
         p5.push();
         p5.translate(-width / 2, -height * 0.618);
-        p5.fill("#CCFFCC");
+        p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2]);
         if(position < beamStartTime + tailTime * 2){
           let progress = (position - beamStartTime) / (tailTime * 2);
           p5.strokeWeight(progress);
@@ -1561,7 +1580,7 @@ new P5((p5) => {
               if(progress < 1 && charIndex < charCollectionArrayLength){
                 p5.push();
                 p5.translate(0, 0, 1000 * Ease.quintIn(1 - progress));
-                p5.fill(204, 255, 204, 255 * Ease.quintOut(1 - progress));
+                p5.fill(chorusLyricsColorArray[themeColor][0], chorusLyricsColorArray[themeColor][1], chorusLyricsColorArray[themeColor][2], 255 * Ease.quintOut(1 - progress));
                 p5.text(charCollectionArray[charIndex], startPointArray[charIndex][0] * (1 - progress), startPointArray[charIndex][1] * (1 - progress));
 
                 p5.push();
