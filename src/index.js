@@ -1497,7 +1497,7 @@ new P5((p5) => {
     }
     else {　// Outro
       if(!outroFlag && position < songEndTime){
-        outroStartTime = position;
+        outroStartTime = player.video.lastPhrase.endTime + tailTime;
         phraseCount = video.phraseCount;
         phraseBeamCount = (songEndTime - outroStartTime) * 0.3 / outroBeamTime;
         beamStartTime = outroStartTime;
