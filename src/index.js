@@ -85,7 +85,7 @@ let collectionVocalAmplitudeArray = [];
 let phraseBeamArray = [];
 
 let themeColor = 0;
-let manualMode = true;
+let manualMode = false;
 let fpsFlag = true;
 
 let keyPressedFlags = [false, false, false, false, false, false, false, false, false, false, false, false, false];
