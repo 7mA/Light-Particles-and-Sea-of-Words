@@ -460,9 +460,6 @@ function onVideoReady(v) {
   phraseBeamArray = [];
   let obj = document.querySelector("#loader");
   obj.style.opacity = 0;
-  themeColor = 0;
-  manualMode = false;
-  fpsFlag = true;
 }
 
 /**
@@ -1517,6 +1514,10 @@ new P5((p5) => {
         maxCollectionVocalAmplitudeCount = Math.round(width * 0.9 / 15);
 
         outroFlag = true;
+
+        console.log(beamStartTime);
+        console.log(loadStartTime);
+        console.log(songEndTime);
       }
 
       // 下方からBeam Time開始Overlay
