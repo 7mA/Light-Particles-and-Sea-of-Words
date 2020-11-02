@@ -1515,7 +1515,7 @@ new P5((p5) => {
 
         outroFlag = true;
 
-        console.log(player.video.lastPhrase.startTime.endTime);
+        console.log(player.video.lastPhrase.endTime);
         console.log(beamStartTime);
         console.log(loadStartTime);
         console.log(songEndTime);
