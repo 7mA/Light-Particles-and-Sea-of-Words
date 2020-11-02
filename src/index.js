@@ -21,6 +21,7 @@ import Splash3 from './assets/lottie_splash_3.json'
 import Splash4 from './assets/lottie_splash_4.json'
 import Splash5 from './assets/lottie_splash_5.json'
 import Loader from './assets/futur-loader.json'
+import Star from './assets/lottie_star.json'
 import Butterfly0 from './assets/butterfly_0.png'
 import Butterfly1 from './assets/butterfly_1.png'
 import Butterfly2 from './assets/butterfly_2.png'
@@ -52,6 +53,7 @@ const vocalAmplitudeSpan = document.querySelector("#vocalAmplitude span");
 const unitProgressSpan = document.querySelector("#unitProgress span");
 const lottieSplashContainer = document.querySelector("#lottie-splash");
 const lottieLoaderContainer = document.querySelector("#lottie-loader");
+const lottieStarContainer = document.querySelector("#lottie-star");
 
 let video;
 let isValenceArousalValid = true;
@@ -114,6 +116,21 @@ let lottieLoaderAnimation = Lottie.loadAnimation({
   },
 });
 lottieLoaderAnimation.goToAndStop();
+
+let lottieStarAnimation = Lottie.loadAnimation({
+  container: lottieStarContainer,
+  renderer: "svg",
+  loop: false,
+  autoplay: false,
+  animationData: Star,
+  rendererSettings: {
+    id: 'star'
+  },
+})
+lottieStarAnimation.goToAndStop();
+lottieStarAnimation.onComplete = () => {
+  lottieStarAnimation.goToAndStop();
+}
 
 let butterfly = Butterfly0;
 let character = Character0;
@@ -571,13 +588,21 @@ function onAppParameterUpdate(name, value){
   }
 }
 
-function splashOnPos(position, index, offsetX, offsetY) {
+function splashOnPos(index, offsetX, offsetY) {
   if(currentSplashIndex == index) return;
   currentSplashIndex = index;
 
   let obj = document.querySelector("#splash");
   lottieSplashAnimation.setSpeed(1);
   lottieSplashAnimation.goToAndPlay(0);
+  obj.style.marginLeft = offsetX;
+  obj.style.marginTop = offsetY;
+}
+
+function starOnPos(offsetX, offsetY){
+  let obj = document.querySelector("#star");
+  lottieStarAnimation.setSpeed(1);
+  lottieStarAnimation.goToAndPlay(0);
   obj.style.marginLeft = offsetX;
   obj.style.marginTop = offsetY;
 }
@@ -1235,7 +1260,7 @@ new P5((p5) => {
                     let pos = char.parent.pos;
                     let charIndex = video.findIndex(char);
                     if(pos === "N" || pos === "PN"){
-                      splashOnPos(position, charIndex, minCharOffsetX + offsetX + width / 2 - 158, height * 0.618 - 150);
+                      splashOnPos(charIndex, minCharOffsetX + offsetX + width / 2 - 158, height * 0.618 - 150);
                     }
                   }
                 } else {
@@ -1244,7 +1269,7 @@ new P5((p5) => {
                     let pos = char.parent.pos;
                     let charIndex = video.findIndex(char);
                     if(pos === "N" || pos === "PN"){
-                      splashOnPos(position, charIndex, minCharOffsetX + offsetX + width / 2 - 158, height * 0.618 - 150 + 60);
+                      splashOnPos(charIndex, minCharOffsetX + offsetX + width / 2 - 158, height * 0.618 - 150 + 60);
                     }
                   }
                 }
@@ -1297,7 +1322,7 @@ new P5((p5) => {
                   p5.fill(nonChorusLyricsColorArray[themeColor]);
                   let wordIndex = video.findIndex(char.parent);
                   if(pos === "N" || pos === "PN"){
-                    splashOnPos(position, wordIndex, minCharOffsetX + typeOffsetX + width / 2 - 158, height * 0.618 + 60 - 150);
+                    splashOnPos(wordIndex, minCharOffsetX + typeOffsetX + width / 2 - 158, height * 0.618 + 60 - 150);
                   }
                 } else {
                   p5.fill("#f0fcff");
@@ -1417,7 +1442,7 @@ new P5((p5) => {
                     let pos = char.parent.pos;
                     let charIndex = video.findIndex(char);
                     if(pos === "N" || pos === "PN"){
-                      splashOnPos(position, charIndex, nextMinCharOffsetX + nextOffsetX + width / 2 - 158, height * 0.618 - 150);
+                      splashOnPos(charIndex, nextMinCharOffsetX + nextOffsetX + width / 2 - 158, height * 0.618 - 150);
                     }
                   }
                 } else {
@@ -1426,7 +1451,7 @@ new P5((p5) => {
                     let pos = char.parent.pos;
                     let charIndex = video.findIndex(char);
                     if(pos === "N" || pos === "PN"){
-                      splashOnPos(position, charIndex, nextMinCharOffsetX + nextOffsetX + width / 2 - 158, height * 0.618 + 60 - 150);
+                      splashOnPos(charIndex, nextMinCharOffsetX + nextOffsetX + width / 2 - 158, height * 0.618 + 60 - 150);
                     }
                   }
                 }
@@ -1447,7 +1472,7 @@ new P5((p5) => {
                   p5.fill(nonChorusLyricsColorArray[themeColor]);
                   let wordIndex = video.findIndex(char.parent);
                   if(pos === "N" || pos === "PN"){
-                    splashOnPos(position, wordIndex, nextMinCharOffsetX + nextTypeOffsetX + width / 2 - 158, height * 0.618 + 60 - 150);
+                    splashOnPos(wordIndex, nextMinCharOffsetX + nextTypeOffsetX + width / 2 - 158, height * 0.618 + 60 - 150);
                   }
                 } else {
                   p5.fill("#f0fcff");
@@ -1787,7 +1812,7 @@ new P5((p5) => {
         p5.textSize(10 * heightProportion);
         p5.textFont(sans);
         p5.text("「" + characterName + "」はクリプトン・フューチャー・メディア株式会社の著作物です。Crypton Future Media, INC. www.piapro.net", 0, height * 0.350)
-        p5.text("Namir Mostafa, Natalie Yeh @LottieFiles", 0, height * 0.365);
+        p5.text("Namir Mostafa, Natalie Yeh, 허연진@LottieFiles", 0, height * 0.365);
       }
     }
     if(loadStartTime > 0){
@@ -1892,7 +1917,6 @@ new P5((p5) => {
         for(let k = y1; k > endPointY; k -= 10){
           let inter = p5.map(k, y1, endPointY, 0, 1);
           let nextInter = p5.map(k - 10, y1, endPointY, 0, 1);
-          p5.noStroke();
           p5.strokeWeight(0);
           p5.fill(227, 249, 253, 255 * (1 - Ease.cubicIn(inter)));
           if(x2 < 0){
@@ -1966,46 +1990,60 @@ new P5((p5) => {
     switch (keyCode) {
       case "KeyZ":
         keyPressedFlags[0] = true;
+        starOnPos((coordinateMatrix[0][0] + coordinateMatrix[0][2]) / 2 - 108 + width / 2, (coordinateMatrix[0][1] + coordinateMatrix[0][3]) / 2 - 100 + height * 0.618)
         break;
       case "KeyX":
         keyPressedFlags[1] = true;
+        starOnPos((coordinateMatrix[1][0] + coordinateMatrix[1][2]) / 2 - 108 + width / 2, (coordinateMatrix[1][1] + coordinateMatrix[1][3]) / 2 - 100 + height * 0.618)
         break;
       case "KeyD":
         keyPressedFlags[2] = true;
+        starOnPos((coordinateMatrix[2][0] + coordinateMatrix[2][2]) / 2 - 108 + width / 2, (coordinateMatrix[2][1] + coordinateMatrix[2][3]) / 2 - 100 + height * 0.618)
         break;
       case "KeyC":
         keyPressedFlags[3] = true;
+        starOnPos((coordinateMatrix[3][0] + coordinateMatrix[3][2]) / 2 - 108 + width / 2, (coordinateMatrix[3][1] + coordinateMatrix[3][3]) / 2 - 100 + height * 0.618)
         break;
       case "KeyF":
         keyPressedFlags[4] = true;
+        starOnPos((coordinateMatrix[4][0] + coordinateMatrix[4][2]) / 2 - 108 + width / 2, (coordinateMatrix[4][1] + coordinateMatrix[4][3]) / 2 - 100 + height * 0.618)
         break;
       case "KeyV":
         keyPressedFlags[5] = true;
+        starOnPos((coordinateMatrix[5][0] + coordinateMatrix[5][2]) / 2 - 108 + width / 2, (coordinateMatrix[5][1] + coordinateMatrix[5][3]) / 2 - 100 + height * 0.618)
         break;
       case "KeyB":
         keyPressedFlags[6] = true;
+        starOnPos((coordinateMatrix[6][0] + coordinateMatrix[6][2]) / 2 - 108 + width / 2, (coordinateMatrix[6][1] + coordinateMatrix[6][3]) / 2 - 100 + height * 0.618)
         break;
       case "KeyH":
         keyPressedFlags[7] = true;
+        starOnPos((coordinateMatrix[7][0] + coordinateMatrix[7][2]) / 2 - 108 + width / 2, (coordinateMatrix[7][1] + coordinateMatrix[7][3]) / 2 - 100 + height * 0.618)
         break;
       case "KeyN":
         keyPressedFlags[8] = true;
+        starOnPos((coordinateMatrix[8][0] + coordinateMatrix[8][2]) / 2 - 108 + width / 2, (coordinateMatrix[8][1] + coordinateMatrix[8][3]) / 2 - 100 + height * 0.618)
         break;
       case "KeyJ":
         keyPressedFlags[9] = true;
+        starOnPos((coordinateMatrix[9][0] + coordinateMatrix[9][2]) / 2 - 108 + width / 2, (coordinateMatrix[9][1] + coordinateMatrix[9][3]) / 2 - 100 + height * 0.618)
         break;
       case "KeyM":
         keyPressedFlags[10] = true;
+        starOnPos((coordinateMatrix[10][0] + coordinateMatrix[10][2]) / 2 - 108 + width / 2, (coordinateMatrix[10][1] + coordinateMatrix[10][3]) / 2 - 100 + height * 0.618)
         break;
       case "KeyK":
         keyPressedFlags[11] = true;
+        starOnPos((coordinateMatrix[11][0] + coordinateMatrix[11][2]) / 2 - 108 + width / 2, (coordinateMatrix[11][1] + coordinateMatrix[11][3]) / 2 - 100 + height * 0.618)
         break;
       case "Comma":
         keyPressedFlags[12] = true;
+        starOnPos((coordinateMatrix[12][0] + coordinateMatrix[12][2]) / 2 - 108 + width / 2, (coordinateMatrix[12][1] + coordinateMatrix[12][3]) / 2 - 100 + height * 0.618)
         break;
       default:
         break;
     }
+
     return false;
   }
 
