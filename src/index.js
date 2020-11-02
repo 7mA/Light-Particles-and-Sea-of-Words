@@ -82,7 +82,7 @@ let phraseBeamCount;
 let collectionVocalAmplitudeArray = [];
 let phraseBeamArray = [];
 
-let themeColor = 0;
+let themeColor = 5;
 let manualMode = false;
 let fpsFlag = true;
 
@@ -94,7 +94,7 @@ let lottieSplashAnimation = Lottie.loadAnimation({
   renderer: "svg",
   loop: false,
   autoplay: false,
-  animationData: Splash0,
+  animationData: Splash5,
   rendererSettings: {
     id: 'splash'
   },
@@ -113,8 +113,8 @@ let lottieLoaderAnimation = Lottie.loadAnimation({
 });
 lottieLoaderAnimation.goToAndStop();
 
-let butterfly = Butterfly0;
-let character = Character0;
+let butterfly = Butterfly5;
+let character = Character4;
 
 let coordinateMatrix = [
   [-234, 150, -219, 150, -434, 310, -474, 310], // B
@@ -269,16 +269,16 @@ let chordNameMatrix = [
 ]
 
 // Miku, Len, Rin, Luka, Meiko, Kaito
-const lightColorGradientArray = ["#8fd3f4", "#fafcc2", "#fff8cd", "#ffd5cd", "#fda25f", "#a3d2ca"];
-const heavyColorGradientArray = ["#84fab0", "#ccf6c8", "#ffe05d", "#fff8cd", "#b83b5e", "#04befe"];
+const lightColorGradientArray = ["#8fd3f4", "#fafcc2", "#fff8cd", "#ffd5cd", "#fd7b5f", "#04befe"];
+const heavyColorGradientArray = ["#84fab0", "#ccf6c8", "#ffe05d", "#fff8cd", "#c4486b", "#a3d2ca"];
 // TODO: MIKU以外のキャラ用色を要追加
 const colorGradientArray = [
   ["#84fab0", "#00f2fe", "#8fd3f4", "#4facfe", "#8ec5fc", "#e0c3fc"],
-  ["#84fab0", "#00f2fe", "#8fd3f4", "#4facfe", "#8ec5fc", "#e0c3fc"],
-  ["#84fab0", "#00f2fe", "#8fd3f4", "#4facfe", "#8ec5fc", "#e0c3fc"],
-  ["#84fab0", "#00f2fe", "#8fd3f4", "#4facfe", "#8ec5fc", "#e0c3fc"],
-  ["#84fab0", "#00f2fe", "#8fd3f4", "#4facfe", "#8ec5fc", "#e0c3fc"],
-  ["#84fab0", "#00f2fe", "#8fd3f4", "#4facfe", "#8ec5fc", "#e0c3fc"],
+  ["#ccf6c8", "#e3f6c8", "#fafcc2", "#fcf4c2", "#fceac2", "#fccdc2"],
+  ["#ffe05d", "#ffe577", "#fff8cd", "#feffcd", "#f2ffcd", "#ffdacd"],
+  ["#fff8cd", "#fff0cd", "#ffd5cd", "#ffcdcd", "#ffcdda", "#f2cdff"],
+  ["#c4486b", "#c4484c", "#fd7b5f", "#fd6646", "#fd8546", "#fde146"],
+  ["#a3d2ca", "#a3d2d2", "#04befe", "#37cbfe", "#37ecfe", "#37fede"],
 ]
 // 流星、Satellite、波形用色
 const satelliteColorArray = ["#7fecad", "#edf492", "#ffe277", "#fab7b7", "#f56a79", "#88e1f2"];
@@ -292,26 +292,26 @@ const satelliteColorRgbArray = [
   [136, 225, 242]
 ];
 // Chorus歌詞用色
-const chorusLyricsColorArray = ["#ccffcc", "#ffffcc", "#ffe6cc", "#ffcce5", "#ff9999", "#ccccff"]
+const chorusLyricsColorArray = ["#ccffcc", "#ffffcc", "#ffed77", "#ffcce5", "#f99aa4", "#9fe7f5"]
 // Chorus歌詞用色（RGBモード）
 const chorusLyricsColorRgbArray = [
   [204, 255, 204],
   [255, 255, 204],
-  [255, 230, 204],
+  [255, 237, 119],
   [255, 204, 229],
-  [255, 153, 153],
-  [204, 204, 255],
+  [249, 154, 164],
+  [159, 231, 245],
 ]
 // Chorus以外歌詞用色
-const nonChorusLyricsColorArray = ["#CCFFFF", "#ccffe6", "#e5ffcc", "#ffe6cc", "#ffffcc", "#e6ffcc"];
+const nonChorusLyricsColorArray = ["#CCFFFF", "#e5ffcc", "#f2ffe6", "#fff3cc", "#ffe6cc", "#ccf3ff"];
 // Chorus以外歌詞用色(RGBモード)
 const nonChorusLyricsColorRgbArray = [
   [204, 255, 255],
-  [204, 255, 230],
   [229, 255, 204],
+  [242, 255, 230],
+  [255, 243, 204],
   [255, 230, 204],
-  [255, 255, 204],
-  [230, 255, 204]
+  [204, 243, 255]
 ]
 
 // TextAlive Player を作る
@@ -1514,11 +1514,6 @@ new P5((p5) => {
         maxCollectionVocalAmplitudeCount = Math.round(width * 0.9 / 15);
 
         outroFlag = true;
-
-        console.log(player.video.lastPhrase.endTime);
-        console.log(beamStartTime);
-        console.log(loadStartTime);
-        console.log(songEndTime);
       }
 
       // 下方からBeam Time開始Overlay
