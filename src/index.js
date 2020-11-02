@@ -1812,7 +1812,7 @@ new P5((p5) => {
         p5.textSize(10 * heightProportion);
         p5.textFont(sans);
         p5.text("「" + characterName + "」はクリプトン・フューチャー・メディア株式会社の著作物です。Crypton Future Media, INC. www.piapro.net", 0, height * 0.350)
-        p5.text("Namir Mostafa, Natalie Yeh, 허연진@LottieFiles", 0, height * 0.365);
+        p5.text("Namir Mostafa, Natalie Yeh, Heo Yeonjin@LottieFiles", 0, height * 0.365);
       }
     }
     if(loadStartTime > 0){
@@ -1986,6 +1986,7 @@ new P5((p5) => {
 
   // キーボードマニュアルモード
   p5.keyTyped = (k) => {
+    if(!chordKeyboardFlag) return;
     let keyCode = k.code;
     switch (keyCode) {
       case "KeyZ":
@@ -2048,6 +2049,7 @@ new P5((p5) => {
   }
 
   p5.keyReleased = (k) => {
+    if(!chordKeyboardFlag) return;
     let keyCode = k.code;
     switch (keyCode) {
       case "KeyZ":
