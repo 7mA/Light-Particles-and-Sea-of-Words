@@ -83,7 +83,7 @@ let collectionVocalAmplitudeArray = [];
 let phraseBeamArray = [];
 
 let themeColor = 0;
-let manualMode = false;
+let manualMode = true;
 let fpsFlag = true;
 
 let keyPressedFlags = [false, false, false, false, false, false, false, false, false, false, false, false, false];
@@ -316,6 +316,10 @@ const nonChorusLyricsColorRgbArray = [
   [204, 243, 255]
 ]
 
+window.onblur = function() {
+  keyPressedFlags = [false, false, false, false, false, false, false, false, false, false, false, false, false];
+}
+
 // TextAlive Player を作る
 const player = new Player({
   app: {
@@ -410,8 +414,8 @@ function onAppReady(app) {
   if (!app.songUrl) {
     // player.createFromSongUrl("http://www.youtube.com/watch?v=ygY2qObZv24");
     // player.createFromSongUrl("https://www.youtube.com/watch?v=a-Nf3QUFkOU");
-    player.createFromSongUrl("https://www.youtube.com/watch?v=XSLhsjepelI");
-    // player.createFromSongUrl("https://piapro.jp/t/C0lr/20180328201242");
+    // player.createFromSongUrl("https://www.youtube.com/watch?v=XSLhsjepelI");
+    player.createFromSongUrl("https://piapro.jp/t/C0lr/20180328201242");
     // player.createFromSongUrl("http://www.nicovideo.jp/watch/sm32459303");
   }
 
@@ -1898,6 +1902,61 @@ new P5((p5) => {
           }
         }
       }
+    }
+    if(manualMode){
+      let keyName;
+      switch (i) {
+        case 0:
+          keyName = "Z"
+          break;
+        case 1:
+          keyName = "X"
+          break;
+        case 2:
+          keyName = "D";
+          break;
+        case 3:
+          keyName = "C";
+          break;
+        case 4:
+          keyName = "F";
+          break;
+        case 5:
+          keyName = "V";
+          break;
+        case 6:
+          keyName = "B";
+          break;
+        case 7:
+          keyName = "H";
+          break;
+        case 8:
+          keyName = "N";
+          break;
+        case 9:
+          keyName = "J";
+          break;
+        case 10:
+          keyName = "M";
+          break;
+        case 11:
+          keyName = "K";
+          break;
+        case 12:
+          keyName = ",";
+          break;
+        default:
+          break;
+      }
+      if(keyPressedFlags[i]){
+        p5.fill(chorusLyricsColorArray[themeColor])
+        p5.textSize(30);
+      } else {
+        p5.fill(255);
+        p5.textSize(25);
+      }
+      p5.textFont(mplus);
+      p5.text(keyName, (x3 + x4) / 2, y3 + 30);
     }
   }
 
