@@ -82,9 +82,11 @@ let phraseBeamCount;
 let collectionVocalAmplitudeArray = [];
 let phraseBeamArray = [];
 
-let themeColor = 5;
+let themeColor = 0;
 let manualMode = false;
 let fpsFlag = true;
+
+let keyPressedFlags = [false, false, false, false, false, false, false, false, false, false, false, false, false];
 
 let subSatelliteRevolutionRedius = 200;
 let maxMainSatelitteRevolutionRedius = subSatelliteRevolutionRedius * 1.618;
@@ -94,7 +96,7 @@ let lottieSplashAnimation = Lottie.loadAnimation({
   renderer: "svg",
   loop: false,
   autoplay: false,
-  animationData: Splash5,
+  animationData: Splash0,
   rendererSettings: {
     id: 'splash'
   },
@@ -113,8 +115,8 @@ let lottieLoaderAnimation = Lottie.loadAnimation({
 });
 lottieLoaderAnimation.goToAndStop();
 
-let butterfly = Butterfly5;
-let character = Character4;
+let butterfly = Butterfly0;
+let character = Character0;
 
 let coordinateMatrix = [
   [-234, 150, -219, 150, -434, 310, -474, 310], // B
@@ -1831,7 +1833,7 @@ new P5((p5) => {
     let gradientEndColor = beatIndex ? p5.color(colorGradientArray[themeColor][(beatIndex + 1) % 6]) : "";
     let characterLightColor = p5.color(lightColorGradientArray[themeColor]);
     let characterHeavyColor = p5.color(heavyColorGradientArray[themeColor]);
-    if(chordNameMatrix[i].indexOf(chordName) == -1){
+    if((!manualMode && chordNameMatrix[i].indexOf(chordName) == -1) || (manualMode && !keyPressedFlags[i])){
       if(chorusIndex === "" || !chorusFlag){
         p5.fill("#758a99");
         p5.stroke("#e0f0e9");
@@ -1849,7 +1851,7 @@ new P5((p5) => {
           p5.quad(x1 - (x1 - x4) * inter, j, x2 - (x2 - x3) * inter, j, x2 - (x2 - x3) * nextInter, j + 20, x1 - (x1 - x4) * nextInter, j + 20);
         }
       }
-    }else{
+    } else{
       if(chorusIndex === "" || !chorusFlag){
         if(!beatProgress) {
           p5.fill("#758a99");
@@ -1897,5 +1899,102 @@ new P5((p5) => {
         }
       }
     }
+  }
+
+  // キーボードマニュアルモード
+  p5.keyTyped = (k) => {
+    let keyCode = k.code;
+    switch (keyCode) {
+      case "KeyZ":
+        keyPressedFlags[0] = true;
+        break;
+      case "KeyX":
+        keyPressedFlags[1] = true;
+        break;
+      case "KeyD":
+        keyPressedFlags[2] = true;
+        break;
+      case "KeyC":
+        keyPressedFlags[3] = true;
+        break;
+      case "KeyF":
+        keyPressedFlags[4] = true;
+        break;
+      case "KeyV":
+        keyPressedFlags[5] = true;
+        break;
+      case "KeyB":
+        keyPressedFlags[6] = true;
+        break;
+      case "KeyH":
+        keyPressedFlags[7] = true;
+        break;
+      case "KeyN":
+        keyPressedFlags[8] = true;
+        break;
+      case "KeyJ":
+        keyPressedFlags[9] = true;
+        break;
+      case "KeyM":
+        keyPressedFlags[10] = true;
+        break;
+      case "KeyK":
+        keyPressedFlags[11] = true;
+        break;
+      case "Comma":
+        keyPressedFlags[12] = true;
+        break;
+      default:
+        break;
+    }
+    return false;
+  }
+
+  p5.keyReleased = (k) => {
+    let keyCode = k.code;
+    switch (keyCode) {
+      case "KeyZ":
+        keyPressedFlags[0] = false;
+        break;
+      case "KeyX":
+        keyPressedFlags[1] = false;
+        break;
+      case "KeyD":
+        keyPressedFlags[2] = false;
+        break;
+      case "KeyC":
+        keyPressedFlags[3] = false;
+        break;
+      case "KeyF":
+        keyPressedFlags[4] = false;
+        break;
+      case "KeyV":
+        keyPressedFlags[5] = false;
+        break;
+      case "KeyB":
+        keyPressedFlags[6] = false;
+        break;
+      case "KeyH":
+        keyPressedFlags[7] = false;
+        break;
+      case "KeyN":
+        keyPressedFlags[8] = false;
+        break;
+      case "KeyJ":
+        keyPressedFlags[9] = false;
+        break;
+      case "KeyM":
+        keyPressedFlags[10] = false;
+        break;
+      case "KeyK":
+        keyPressedFlags[11] = false;
+        break;
+      case "Comma":
+        keyPressedFlags[12] = false;
+        break;
+      default:
+        break;
+    }
+    return false;
   }
 });
