@@ -513,9 +513,9 @@ function onThrottledTimeUpdate(position) {
 }
 
 function onTimeUpdate(position){
-  if(isValenceArousalValid) {
-    // valenceArousalSpan.textContent = "a: " + player.getValenceArousal(position).a + " v: " + player.getValenceArousal(position).v;
-  }
+  // if(isValenceArousalValid) {
+  //   valenceArousalSpan.textContent = "a: " + player.getValenceArousal(position).a + " v: " + player.getValenceArousal(position).v;
+  // }
   // vocalAmplitudeSpan.textContent = player.getVocalAmplitude(position);
 }
 
@@ -618,7 +618,7 @@ new P5((p5) => {
   const widthProportion = width / originWidth;
   const heightProportion = height / originHeight;
 
-  var balls = new Array(Math.round(1000 * widthProportion));
+  var balls = new Array(Math.round(500 * widthProportion));
   var r = width / 2;
 
   subSatelliteRevolutionRedius *= heightProportion;
@@ -636,7 +636,6 @@ new P5((p5) => {
 
   p5.disableFriendlyErrors = true;
 
-  let meteorArray = [];
   let charCollectionArray = [];
   let charCollectionArrayLength;
   let startPointArray = [];
@@ -676,6 +675,7 @@ new P5((p5) => {
 
     sans = p5.loadFont(Sans);
     mplus = p5.loadFont(Mplus);
+    p5.frameRate(48);
 
     butterflySize = 35;
     butterflyPos = p5.createVector(0,0);
@@ -756,6 +756,8 @@ new P5((p5) => {
     const vocalAmplitude = player.getVocalAmplitude(position);
     const valenceArousal = player.getValenceArousal(position);
 
+    const satelliteThemeColorRgb = satelliteColorRgbArray[themeColor];
+
     let beatIndex;
     let beatProgress;
     let chordName;
@@ -789,7 +791,6 @@ new P5((p5) => {
     }
 
     p5.translate(-width / 2, -height / 2);
-    p5.frameRate(30);
     p5.noStroke();
     p5.textFont(sans);
     p5.textAlign(p5.CENTER, p5.CENTER);
@@ -802,8 +803,9 @@ new P5((p5) => {
     p5.translate(width / 2, height * 0.382);
     let frameCount = p5.frameCount
     let ballsLength = balls.length
-    var dcos = p5.cos(p5.TWO_PI/360 * 23.5);
-    var dsin = p5.sin(p5.TWO_PI/360 * 23.5);
+    var dAngle = p5.TWO_PI/360 * 23.5
+    var dcos = p5.cos(dAngle);
+    var dsin = p5.sin(dAngle);
     for(let i = 0; i < ballsLength; i++){
       let ball = balls[i];
       let angle = frameCount / ballSpeed + ball[2]
@@ -816,34 +818,22 @@ new P5((p5) => {
       var sin = y / z;
       var newcos = dcos * cos + dsin * sin;
       var newsin = sin * dcos - cos * dsin;
-      var newx;
-      var newy;
+      var newx = z * newcos;
+      var newy = z * newsin;
       if(position < sphereCompleteTime){
-        newy = z * newsin;
-        newx = z * newcos;
         let inter = 0.05 + 0.95 * Ease.quadIn(position / sphereCompleteTime);
         ballRadius = maxBallRadius * inter;
-        p5.ellipse(newx, newy, (ballRadius - 0.25 * cosAngle * ball[0] / p5.abs(ball[0])));
       } else {
         ballRadius = maxBallRadius;
-        newy = z * newsin;
-        newx = z * newcos;
-        p5.ellipse(newx, newy, ballRadius - 0.25 * cosAngle * ball[0] / p5.abs(ball[0]));
       }
-    }
-
-    // お前ら、流星になれ！
-    if(!chorusFlag && chorusIndex !== "" && criticalBeatIndex == -1){
-      for(let i = 0; i < balls.length; i++){
-        if(p5.random(100) < 5) meteorArray.push(i);
-      }
+      p5.ellipse(newx, newy, ballRadius - 0.25 * cosAngle * ball[0] / p5.abs(ball[0]));
     }
 
     // 流星になるぞ！
     if(chorusIndex !== "" && chorusFlag){
       p5.fill(satelliteColorArray[themeColor]);
-      for(let j = 0; j < meteorArray.length; j++){
-        let ball = balls[meteorArray[j]];
+      for(let j = 0; j < balls.length / 20; j++){
+        let ball = balls[j];
         let currentX = ball[0] * p5.sin(frameCount / ballSpeed + ball[2]);
         let beforeX = ball[0] * p5.sin((frameCount - 1) / ballSpeed + ball[2]);
         if(beforeX > currentX){
@@ -860,8 +850,8 @@ new P5((p5) => {
             var z = p5.sqrt(x * x + y * y);
             var cos = x / z;
             var sin = y / z;
-            var newcos = p5.cos(p5.TWO_PI/360 * 23.5) * cos + p5.sin(p5.TWO_PI/360 * 23.5) * sin;
-            var newsin = sin * p5.cos(p5.TWO_PI/360 * 23.5) - cos * p5.sin(p5.TWO_PI/360 * 23.5);
+            var newcos = p5.cos(dAngle) * cos + p5.sin(dAngle) * sin;
+            var newsin = sin * p5.cos(dAngle) - cos * p5.sin(dAngle);
             var newy = z * newsin;
             var newx = z * newcos;
             p5.ellipse(newx, newy, meteorRadius);
@@ -890,7 +880,7 @@ new P5((p5) => {
         let y = - mainSatelitteRevolutionRedius * dsin + 2 * mainSatelitteRevolutionRedius * dsin * Ease.cubicOut(beatProgress - i * 0.005)
         p5.push();
         p5.translate(0, 0, p5.abs(beatProgress - 0.5));
-        p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
+        p5.fill(satelliteThemeColorRgb[0], satelliteThemeColorRgb[1], satelliteThemeColorRgb[2], 255 - 10 * i);
         p5.ellipse(x, y, mainSatelitteRedius);
         p5.pop();
       }
@@ -902,11 +892,11 @@ new P5((p5) => {
         if(position < sphereCompleteTime){
           mainSatelitteRedius = mainSatelitteRedius * (0.05 + 0.95 * Ease.quadIn(position / sphereCompleteTime));
         }
-        let x = - mainSatelitteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) + 2 * mainSatelitteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) * Ease.cubicIn(beatProgress - 0.003 * i);
-        let y = mainSatelitteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) - 2 * mainSatelitteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) * (beatProgress - 0.003 * i);
+        let x = - mainSatelitteRevolutionRedius * p5.cos(dAngle) + 2 * mainSatelitteRevolutionRedius * p5.cos(dAngle) * Ease.cubicIn(beatProgress - 0.003 * i);
+        let y = mainSatelitteRevolutionRedius * p5.sin(dAngle) - 2 * mainSatelitteRevolutionRedius * p5.sin(dAngle) * (beatProgress - 0.003 * i);
         p5.push();
         p5.translate(0, 0, -p5.abs(beatProgress - 0.5));
-        p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
+        p5.fill(satelliteThemeColorRgb[0], satelliteThemeColorRgb[1], satelliteThemeColorRgb[2], 255 - 10 * i);
         p5.ellipse(x, y, mainSatelitteRedius);
         p5.pop();
       }
@@ -961,6 +951,7 @@ new P5((p5) => {
     p5.push();
     p5.noStroke();
     p5.fill(satelliteColorArray[themeColor]);
+    let overlayZIndexOffset = -(height/2.0) / p5.tan(p5.TWO_PI * 60.0/360.0)
     if(chorusIndex !== ""){
       if(chorusFlag == false){
         if(criticalBeatIndex == -1){
@@ -978,7 +969,7 @@ new P5((p5) => {
               p5.push();
               p5.translate(0, 0, 500 * (1 - beatProgress));
               if(x > 0 && y > 0){
-                p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
+                p5.fill(satelliteThemeColorRgb[0], satelliteThemeColorRgb[1], satelliteThemeColorRgb[2], 255 - 10 * i);
                 p5.ellipse(x, y, 25 + (200 - 25) * (1 - beatProgress) - i);
               }
               p5.pop();
@@ -986,7 +977,7 @@ new P5((p5) => {
             // 下方からChorus開始Overlay
             if(beatProgress > 0.5){
               p5.push();
-              p5.translate(0, 500, -(height/2.0) / p5.tan(p5.TWO_PI * 60.0/360.0));
+              p5.translate(0, 500, overlayZIndexOffset);
               for(let i = 0; i < height + 500; i += 20){
                 p5.strokeWeight(0);
                 p5.noStroke();
@@ -1003,7 +994,7 @@ new P5((p5) => {
               p5.push();
               p5.translate(0, 0, 500 * (1 - beatProgress));
               if(x > 0 && y > 0){
-                p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
+                p5.fill(satelliteThemeColorRgb[0], satelliteThemeColorRgb[1], satelliteThemeColorRgb[2], 255 - 10 * i);
                 p5.ellipse(x, y, 15 + (200 - 15) * (1 - beatProgress) - i);
               }
               p5.pop();
@@ -1011,7 +1002,7 @@ new P5((p5) => {
             // 上方からChorus開始Overlay
             if(beatProgress > 0.5){
               p5.push();
-              p5.translate(0, -500, -(height/2.0) / p5.tan(p5.TWO_PI * 60.0/360.0));
+              p5.translate(0, -500, overlayZIndexOffset);
               for(let i = 0; i < height + 500; i += 20){
                 p5.strokeWeight(0);
                 p5.noStroke();
@@ -1031,44 +1022,44 @@ new P5((p5) => {
         if(beatIndex % 2 == 0){
           for(let i = 0; i < 15; i++){
             if(beatProgress < 0.5){
-              x = subSatelliteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) - 2 * subSatelliteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) * (0.5 + beatProgress - 0.005 * i);
-              y = - subSatelliteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) + 2 * subSatelliteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) * Ease.cubicOut(0.5 + beatProgress - i * 0.005)
+              x = subSatelliteRevolutionRedius * p5.cos(dAngle) - 2 * subSatelliteRevolutionRedius * p5.cos(dAngle) * (0.5 + beatProgress - 0.005 * i);
+              y = - subSatelliteRevolutionRedius * p5.sin(dAngle) + 2 * subSatelliteRevolutionRedius * p5.sin(dAngle) * Ease.cubicOut(0.5 + beatProgress - i * 0.005)
 
               newx = -y;
               newy = x;
             } else {
               if(beatProgress - 0.003 * i - 0.5 < 0) break;
 
-              let x = - subSatelliteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) + 2 * subSatelliteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) * Ease.cubicIn(beatProgress - 0.003 * i - 0.5);
-              let y = subSatelliteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) - 2 * subSatelliteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) * (beatProgress - 0.003 * i - 0.5);
+              let x = - subSatelliteRevolutionRedius * p5.cos(dAngle) + 2 * subSatelliteRevolutionRedius * p5.cos(dAngle) * Ease.cubicIn(beatProgress - 0.003 * i - 0.5);
+              let y = subSatelliteRevolutionRedius * p5.sin(dAngle) - 2 * subSatelliteRevolutionRedius * p5.sin(dAngle) * (beatProgress - 0.003 * i - 0.5);
 
               newx = -y;
               newy = x;
             }
             p5.push();
-            p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
+            p5.fill(satelliteThemeColorRgb[0], satelliteThemeColorRgb[1], satelliteThemeColorRgb[2], 255 - 10 * i);
             p5.ellipse(newx, newy, 25 - 5 * beatProgress - i * 1.33);
             p5.pop();
           }
         } else {
           for(let i = 0; i < 15; i++){
             if(beatProgress < 0.5){
-              x = - subSatelliteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) + 2 * subSatelliteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) * Ease.cubicIn(0.5 + beatProgress - 0.003 * i);
-              y = subSatelliteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) - 2 * subSatelliteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) * (0.5 + beatProgress - 0.003 * i);
+              x = - subSatelliteRevolutionRedius * p5.cos(dAngle) + 2 * subSatelliteRevolutionRedius * p5.cos(dAngle) * Ease.cubicIn(0.5 + beatProgress - 0.003 * i);
+              y = subSatelliteRevolutionRedius * p5.sin(dAngle) - 2 * subSatelliteRevolutionRedius * p5.sin(dAngle) * (0.5 + beatProgress - 0.003 * i);
 
               newx = -y;
               newy = x;
             } else {
               if(beatProgress - 0.005 * i - 0.5 < 0) break;
 
-              x = subSatelliteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) - 2 * subSatelliteRevolutionRedius * p5.cos(p5.TWO_PI/360 * 23.5) * (beatProgress - 0.005 * i - 0.5);
-              y = - subSatelliteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) + 2 * subSatelliteRevolutionRedius * p5.sin(p5.TWO_PI/360 * 23.5) * Ease.cubicOut(beatProgress - i * 0.005 - 0.5)
+              x = subSatelliteRevolutionRedius * p5.cos(dAngle) - 2 * subSatelliteRevolutionRedius * p5.cos(dAngle) * (beatProgress - 0.005 * i - 0.5);
+              y = - subSatelliteRevolutionRedius * p5.sin(dAngle) + 2 * subSatelliteRevolutionRedius * p5.sin(dAngle) * Ease.cubicOut(beatProgress - i * 0.005 - 0.5)
 
               newx = -y;
               newy = x;
             }
             p5.push();
-            p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
+            p5.fill(satelliteThemeColorRgb[0], satelliteThemeColorRgb[1], satelliteThemeColorRgb[2], 255 - 10 * i);
             p5.ellipse(newx, newy, 15 + 5 * beatProgress - i);
             p5.pop();
           }
@@ -1082,7 +1073,7 @@ new P5((p5) => {
         p5.push();
         p5.strokeWeight(0);
         p5.noStroke();
-        p5.translate(width / 2, height / 2, -(height/2.0) / p5.tan(p5.TWO_PI * 60.0/360.0));
+        p5.translate(width / 2, height / 2, overlayZIndexOffset);
         p5.scale(1, 1, 0.5);
         for(let i = 0; i < 200; i += 20){
           p5.fill(227, 249, 253, (200 - i) / 2 * (0.5 - beatProgress));
@@ -1097,10 +1088,6 @@ new P5((p5) => {
           criticalBeatIndex = beatIndex;
         }
         if(criticalBeatIndex != beatIndex){
-
-          // 流星リストをリセット
-          meteorArray = [];
-
           criticalBeatIndex = -1;
           chorusFlag = false;
         } else if(criticalBeatIndex === undefined || beatIndex === undefined){
@@ -1114,14 +1101,14 @@ new P5((p5) => {
               p5.push();
               p5.translate(0, 0, 500 * beatProgress);
               if(x > 0 && y > 0){
-                p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
+                p5.fill(satelliteThemeColorRgb[0], satelliteThemeColorRgb[1], satelliteThemeColorRgb[2], 255 - 10 * i);
                 p5.ellipse(x, y, 25 + (200 - 25) * beatProgress - i);
               }
               p5.pop();
             }
             // 上方からChorus終了Overlay
             p5.push();
-            p5.translate(0, -500, -(height/2.0) / p5.tan(p5.TWO_PI * 60.0/360.0));
+            p5.translate(0, -500, overlayZIndexOffset);
             for(let i = 0; i < height + 500; i += 20){
               p5.strokeWeight(0);
               p5.noStroke();
@@ -1137,14 +1124,14 @@ new P5((p5) => {
               p5.push();
               p5.translate(0, 0, 500 * beatProgress);
               if(x > 0 && y > 0){
-                p5.fill(satelliteColorRgbArray[themeColor][0], satelliteColorRgbArray[themeColor][1], satelliteColorRgbArray[themeColor][2], 255 - 10 * i);
+                p5.fill(satelliteThemeColorRgb[0], satelliteThemeColorRgb[1], satelliteThemeColorRgb[2], 255 - 10 * i);
                 p5.ellipse(x, y, 15 + (200 - 15) * beatProgress - i);
               }
               p5.pop();
             }
             // 下方からChorus終了Overlay
             p5.push();
-            p5.translate(0, 500, -(height/2.0) / p5.tan(p5.TWO_PI * 60.0/360.0));
+            p5.translate(0, 500, overlayZIndexOffset);
             for(let i = 0; i < height + 500; i += 20){
               p5.strokeWeight(0);
               p5.noStroke();
@@ -1210,7 +1197,7 @@ new P5((p5) => {
       let index = video.findIndex(phrase);
 
       // Chorus
-      if(chorusAtStart !== null || chorusAtEnd !== null){
+      if(chorusAtStart != null || chorusAtEnd != null){
 
         if(currentPhraseIndex != index){
           nextPhrase = null;
@@ -1350,8 +1337,9 @@ new P5((p5) => {
           if (position > endTime) {
             char = phrase.firstChar;
             minCharOffsetX = 0;
-            if(p5.abs(typeOffsetX - (-p5.textWidth(phrase.text) / 2)) > 20){
-              typeOffsetX = - p5.textWidth(phrase.text) / 2;
+            let phraseOffset = -p5.textWidth(phrase.text) / 2;
+            if(p5.abs(typeOffsetX - phraseOffset) > 20){
+              typeOffsetX = phraseOffset;
             }
             // 退場ステップ1（Enterキーエフェクト）
             if(position < endTime + 100){
@@ -1403,7 +1391,7 @@ new P5((p5) => {
         nextMaxOffsetX = - nextPhraseWidth / 2;
         p5.textSize(35);
 
-        if(nextChorusAtStart !== null || nextChorusAtEnd !== null){
+        if(nextChorusAtStart != null || nextChorusAtEnd != null){
           if(position > nextStartTime - headTime){
 
             // 入場
@@ -1537,7 +1525,7 @@ new P5((p5) => {
         loadEndTime = outroStartTime + (songEndTime - outroStartTime) * 0.6;
         for(let i = 0; i < phraseBeamCount; i++){
           let index = Math.round(p5.random(phraseCount));
-          while(phraseBeamArray.indexOf(index) !== -1) index = Math.round(p5.random(phraseCount));
+          while(phraseBeamArray.indexOf(index) != -1) index = Math.round(p5.random(phraseCount));
           if(video.getPhrase(index) === null) index = Math.round(p5.random(phraseCount));
           phraseBeamArray.push(index);
         }
@@ -1552,7 +1540,7 @@ new P5((p5) => {
         let progress = (position - beamStartTime) / tailTime;
         p5.push();
         p5.translate(-width / 2, -height * 0.618);
-        p5.translate(0, 500,  -(height/2.0) / p5.tan(p5.TWO_PI * 60.0/360.0));
+        p5.translate(0, 500,  overlayZIndexOffset);
         p5.strokeWeight(0);
         p5.noStroke();
         for(let i = 0; i < height + 500; i += 20){
@@ -1828,7 +1816,7 @@ new P5((p5) => {
         }
       } else if(position > loadStartTime + headTime && position < loadEndTime - tailTime){
         obj.style.opacity = 1;
-      } else {
+      } else if(obj.style.opacity != 0) {
         obj.style.opacity = 0;
       }
     }
@@ -1849,17 +1837,19 @@ new P5((p5) => {
 
   // i: 0 ~ 12 -> B, C, C#, ..., A, A#, B
   p5.chordKeyboardRender = (i, chordName, chorusIndex, beatIndex, beatProgress, vocalAmplitude) => {
-    let x1 = coordinateMatrix[i][0];
-    let y1 = coordinateMatrix[i][1];
-    let x2 = coordinateMatrix[i][2];
-    let y2 = coordinateMatrix[i][3];
-    let x3 = coordinateMatrix[i][4];
-    let y3 = coordinateMatrix[i][5];
-    let x4 = coordinateMatrix[i][6];
-    let y4 = coordinateMatrix[i][7];
-    let gradientStartColor = beatIndex ? p5.color(colorGradientArray[themeColor][(beatIndex - 1) % 6]) : "";
-    let gradientMiddleColor =  beatIndex ? p5.color(colorGradientArray[themeColor][beatIndex % 6]) : "";
-    let gradientEndColor = beatIndex ? p5.color(colorGradientArray[themeColor][(beatIndex + 1) % 6]) : "";
+    let coordinateArray = coordinateMatrix[i];
+    let x1 = coordinateArray[0];
+    let y1 = coordinateArray[1];
+    let x2 = coordinateArray[2];
+    let y2 = coordinateArray[3];
+    let x3 = coordinateArray[4];
+    let y3 = coordinateArray[5];
+    let x4 = coordinateArray[6];
+    let y4 = coordinateArray[7];
+    let themeColorGradientArray = colorGradientArray[themeColor];
+    let gradientStartColor = beatIndex ? p5.color(themeColorGradientArray[(beatIndex - 1) % 6]) : "";
+    let gradientMiddleColor =  beatIndex ? p5.color(themeColorGradientArray[beatIndex % 6]) : "";
+    let gradientEndColor = beatIndex ? p5.color(themeColorGradientArray[(beatIndex + 1) % 6]) : "";
     let characterLightColor = p5.color(lightColorGradientArray[themeColor]);
     let characterHeavyColor = p5.color(heavyColorGradientArray[themeColor]);
     if((!manualMode && chordNameMatrix[i].indexOf(chordName) == -1) || (manualMode && !keyPressedFlags[i])){
@@ -1972,6 +1962,7 @@ new P5((p5) => {
         default:
           break;
       }
+      p5.push();
       if(keyPressedFlags[i]){
         p5.fill(chorusLyricsColorArray[themeColor])
         p5.textSize(30);
@@ -1981,6 +1972,7 @@ new P5((p5) => {
       }
       p5.textFont(mplus);
       p5.text(keyName, (x3 + x4) / 2, y3 + 30);
+      p5.pop();
     }
   }
 
