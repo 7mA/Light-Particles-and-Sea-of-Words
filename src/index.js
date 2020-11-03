@@ -1811,6 +1811,8 @@ new P5((p5) => {
         p5.push();
         p5.translate(0, -height * (0.618 - 0.382));
         p5.textSize(20);
+        obj.style.marginLeft = width / 2 - 100;
+        obj.style.marginTop = height * 0.382 - 100;
         if(position > loadStartTime && position < loadEndTime){
           let progress;
           for(let i = 3; i >= 0; i--){
@@ -2199,6 +2201,8 @@ new P5((p5) => {
       var s3 = p5.TWO_PI/360 * p5.random(360);
       balls[i] = [s1 * p5.cos(s2), s1 * p5.sin(s2), s3, s1];
     }
+
+    maxCollectionVocalAmplitudeCount = Math.round(width * 0.9 / 15);
   }
 
 });
