@@ -168,10 +168,10 @@ let chordNameMatrix = [
     "F", "F7", "Fm", "Fm7", "FM7", "FmM7", "Fsus4", "F7sus4", "Fadd9", "F6", "Fm6",
     "F#dim", "F#m7-5",
     "Gsus4", "G7sus4",
-    "G#", "G#7", "G#M7", "G#aug", "G#6",
+    "G#", "G#7", "G#M7", "G#aug", "G#6", "G#M9",
     "Am", "Am7", "AmM7", "Adim", "Am7-5", "Am6",
     "A#add9"], // C
-  ["C#", "C#7", "C#m", "C#m7", "C#M7", "C#mM7", "C#sus4", "C#7sus4", "C#dim", "C#m7-5", "C#aug", "C#add9", "C#6", "C#m6",
+  ["C#", "C#7", "C#m", "C#m7", "C#M7", "C#mM7", "C#sus4", "C#7sus4", "C#dim", "C#m7-5", "C#aug", "C#add9", "C#6", "C#m6", "C#sus2",
     "DM7", "DmM7",
     "D#7", "D#m7", "D#7sus4", "D#m7-5",
     "Edim", "E6", "Em6",
@@ -194,13 +194,13 @@ let chordNameMatrix = [
     "A#", "A#7", "A#M7", "A#aug", "A#6",
     "Bm", "Bm7", "BmM7", "Bdim", "Bm7-5", "Bm6"], // D
   ["Cm", "Cm7", "CmM7", "Cdim", "Cm7-5", "Cm6",
-    "C#add9",
-    "D#", "D#7", "D#m", "D#m7", "D#M7", "D#mM7", "D#sus4", "D#7sus4", "D#dim", "D#m7-5", "D#aug", "D#add9", "D#6", "D#m6",
+    "C#add9", "C#sus2",
+    "D#", "D#7", "D#m", "D#m7", "D#M7", "D#mM7", "D#sus4", "D#7sus4", "D#dim", "D#m7-5", "D#aug", "D#add9", "D#6", "D#m6", "D#sus2",
     "EM7", "EmM7",
     "F7", "Fm7", "F7sus4", "Fm7-5",
     "F#dim", "F#6", "F#m6",
     "Gaug",
-    "G#", "G#7", "G#m", "G#m7", "G#M7", "G#mM7", "G#sus4", "G#7sus4", "G#add9", "G#6", "G#m6",
+    "G#", "G#7", "G#m", "G#m7", "G#M7", "G#mM7", "G#sus4", "G#7sus4", "G#add9", "G#6", "G#m6", "G#M9",
     "Adim", "Am7-5",
     "A#sus4", "A#7sus4",
     "B", "B7", "BM7", "Baug", "B6"], // D#
@@ -218,7 +218,7 @@ let chordNameMatrix = [
   ["Csus4", "C7sus4",
     "C#", "C#7", "C#M7", "C#aug", "C#6",
     "Dm", "Dm7", "DmM7", "Ddim", "Dm7-5", "Dm6",
-    "D#add9",
+    "D#add9", "D#sus2",
     "F", "F7", "Fm", "Fm7", "FM7", "FmM7", "Fsus4", "F7sus4", "Fdim", "Fm7-5", "Faug", "Fadd9", "F6", "Fm6",
     "F#M7", "F#mM7",
     "G7", "Gm7", "G7sus4", "Gm7-5",
@@ -244,18 +244,18 @@ let chordNameMatrix = [
     "Em", "Em7", "EmM7", "Edim", "Em7-5", "Em6",
     "Fadd9",
     "G", "G7", "Gm", "Gm7", "GM7", "GmM7", "Gsus4", "G7sus4", "Gdim", "Gm7-5", "Gaug", "Gadd9", "G6", "Gm6",
-    "G#M7", "G#mM7",
+    "G#M7", "G#mM7", "G#M9",
     "A7", "Am7", "A7sus4", "Am7-5",
     "A#dim", "A#6", "A#m6",
     "Baug"], // G
   ["Caug",
-    "C#", "C#7", "C#m", "C#m7", "C#M7", "C#mM7", "C#sus4", "C#7sus4", "C#add9", "C#6", "C#m6",
+    "C#", "C#7", "C#m", "C#m7", "C#M7", "C#mM7", "C#sus4", "C#7sus4", "C#add9", "C#6", "C#m6", "C#sus2",
     "Ddim", "Dm7-5",
     "D#sus4", "D#7sus4",
     "E", "E7", "EM7", "Eaug", "E6",
     "Fm", "Fm7", "FmM7", "Fdim", "Fm7-5", "Fm6",
     "F#add9",
-    "G#", "G#7", "G#m", "G#m7", "G#M7", "G#mM7", "G#sus4", "G#7sus4", "G#dim", "G#m7-5", "G#aug", "G#add9", "G#6", "G#m6",
+    "G#", "G#7", "G#m", "G#m7", "G#M7", "G#mM7", "G#sus4", "G#7sus4", "G#dim", "G#m7-5", "G#aug", "G#add9", "G#6", "G#m6", "G#M9",
     "AM7", "AmM7",
     "A#7", "A#m7", "A#7sus4", "A#m7-5",
     "Bdim", "B6", "Bm6"], //G#
@@ -273,12 +273,12 @@ let chordNameMatrix = [
   ["C7", "Cm7", "C7sus4", "Cm7-5",
     "C#dim", "C#6", "C#m6",
     "Daug",
-    "D#", "D#7", "D#m", "D#m7", "D#M7", "D#mM7", "D#sus4", "D#7sus4", "D#add9", "D#6", "D#m6",
+    "D#", "D#7", "D#m", "D#m7", "D#M7", "D#mM7", "D#sus4", "D#7sus4", "D#add9", "D#6", "D#m6", "D#sus2",
     "Edim", "Em7-5",
     "Fsus4", "F7sus4",
     "F#", "F#7", "F#M7", "F#aug", "F#6",
     "Gm", "Gm7", "GmM7", "Gdim", "Gm7-5", "Gm6",
-    "G#add9",
+    "G#add9", "G#M9",
     "A#", "A#7", "A#m", "A#m7", "A#M7", "A#mM7", "A#sus4", "A#7sus4", "A#dim", "A#m7-5", "A#aug", "A#add9", "A#6", "A#m6",
     "BM7", "BmM7"], // A#
   ["CM7", "CmM7",
@@ -502,9 +502,9 @@ function onAppReady(app) {
   }
 
   if (!app.songUrl) {
-    player.createFromSongUrl("http://www.youtube.com/watch?v=ygY2qObZv24");
+    // player.createFromSongUrl("http://www.youtube.com/watch?v=ygY2qObZv24");
     // player.createFromSongUrl("https://www.youtube.com/watch?v=a-Nf3QUFkOU");
-    // player.createFromSongUrl("https://www.youtube.com/watch?v=XSLhsjepelI");
+    player.createFromSongUrl("https://www.youtube.com/watch?v=XSLhsjepelI");
     // player.createFromSongUrl("https://piapro.jp/t/C0lr/20180328201242");
     // player.createFromSongUrl("http://www.nicovideo.jp/watch/sm32459303");
   }
@@ -852,8 +852,8 @@ new P5((p5) => {
 
     if(chord){
       chordName = player.findChord(position).name
-      // chordNameSpan.textContent =  chordName;
-      // chordIndexSpan.textContent =  player.findChord(position).index;
+      chordNameSpan.textContent =  chordName;
+      chordIndexSpan.textContent =  player.findChord(position).index;
     } else {
       // chordNameSpan.textContent = "";
       // chordIndexSpan.textContent = "";
