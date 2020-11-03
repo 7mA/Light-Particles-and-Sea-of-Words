@@ -1846,7 +1846,7 @@ new P5((p5) => {
                     p5.push();
                     let tailProgress = 1 - (progress - 0.01 - j * 0.005);
                     p5.translate(0, 0, 1000 * Ease.quintIn(tailProgress));
-                    p5.ellipse(startPointArray[charIndex][0] * tailProgress, startPointArray[charIndex][1] * tailProgressx, 1);
+                    p5.ellipse(startPointArray[charIndex][0] * tailProgress, startPointArray[charIndex][1] * tailProgress, 1);
                     p5.pop();
                   }
                 }
