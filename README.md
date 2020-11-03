@@ -11,8 +11,6 @@ TextAlive ホストと接続するか、アプリURLにクエリパラメータ�
 TextAlive ホストと接続された状態をテストするには [TextAlive App Debugger](https://developer.textalive.jp/app/run) のページにアクセスしてください。
 
 - API IF: https://developer.textalive.jp/app/
-- App URL: https://textalivejp.github.io/textalive-app-basic/
-
 
 ## 開発
 
