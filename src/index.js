@@ -365,7 +365,7 @@ const player = new Player({
           initialValue: 0,
         },
         {
-          title: "キーボードマニュアルモード(キーボードが表示される場合のみ有効)",
+          title: "キーボードモード(キーボードが表示される場合のみ有効)",
           name: "keyboardMode",
           className: "Select",
           params: [
@@ -409,7 +409,11 @@ function onAppReady(app) {
   closeDescriptionBtn.addEventListener(
     "click",
     () => {
+      document.querySelector("#help").scrollTop = 0;
       document.querySelector("#help").style.display = "none";
+      document.querySelector("#lottie-splash").style.display = "block";
+      document.querySelector("#lottie-loader").style.display = "block";
+      document.querySelector("#lottie-star").style.display = "block";
     }
   )
 
@@ -588,7 +592,11 @@ function onTimeUpdate(position){
 // 再生が始まったら説明文を非表示に
 function onPlay() {
   if(document.querySelector("#description").style.display !== "none"){
+    document.querySelector("#help").scrollTop = 0;
     document.querySelector("#help").style.display = "none";
+    document.querySelector("#lottie-splash").style.display = "block";
+    document.querySelector("#lottie-loader").style.display = "block";
+    document.querySelector("#lottie-star").style.display = "block";
   }
 }
 

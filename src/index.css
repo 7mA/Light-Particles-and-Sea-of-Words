@@ -1,15 +1,16 @@
 #help {
-  justify-content: center;
-  position: relative;
-  margin-top: 200px;
-  margin-bottom: 200px;
-  margin-left: 200px;
-  margin-right: 200px;
+  position: absolute;
+  margin: 10% 20% 10% 20%;
+  padding: 10px;
+  text-align: center;
+  width: 60%;
+  max-height: 60%;
   background: rgba(0,0,0,0.7);
   color: rgba(255,255,255);
   align-items: center;
   z-index: 300;
   font-family: 'Noto Sans JP';
+  overflow: auto;
 }
 
 #help .description{
@@ -139,17 +140,23 @@ canvas {
 #lottie-splash {
   width: 300px;
   height: 300px;
+  margin: 0;
   position: absolute;
+  display: none;
 }
 
 #lottie-loader {
   width: 200px;
   height: 200px;
+  margin: 0;
   position: absolute;
+  display: none;
 }
 
 #lottie-star {
   width: 200px;
   height: 200px;
+  margin: 0;
   position: absolute;
+  display: none;
 }
