@@ -1778,7 +1778,7 @@ new P5((p5) => {
         } else {
           collectionVocalAmplitudeArray.shift();
           for(let i = 0; i < length; i++){
-            let x = startX + (i + muteCount) * 15;
+            let x = startX + i * 15;
             let dy = (collectionVocalAmplitudeArray[i] / maxVocalAmplitude) * 50
             p5.line(x, originY - dy, x, originY + dy);
           }
