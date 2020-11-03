@@ -1,16 +1,33 @@
 # 光粒子とコトバの海 | Light Particles and Sea of Words
 
+![イメージ図](https://i.gyazo.com/9fcaaa90e3a1b187e93849031fa0bbb5.gif)
+
 初音ミク「マジカルミライ 2020」プログラミング・コンテスト応募作品
 
 デブリに見えるほどの無数の光粒子とグリーンライツを放つ流星をイメージにした物語。
 
 やがてコトバたちがキミの命になってゆく。
 
-TextAlive ホストと接続するか、アプリURLにクエリパラメータを指定すれば（詳細は下記）曲が選べます。
+TextAlive ホストと接続するか、アプリURLにクエリパラメータを指定すれば曲が選べます。
 
 TextAlive ホストと接続された状態をテストするには [TextAlive App Debugger](https://developer.textalive.jp/app/run) のページにアクセスしてください。
 
 - API IF: https://developer.textalive.jp/app/
+
+## プログラムならではの映像
+
+プログラムの互換性の優位を使い、どんな曲でもふさわしい映像演出ができます。
+
+```JavaScript
+// YouTube
+player.createFromSongUrl("http://www.youtube.com/watch?v=XSLhsjepelI");
+
+// Piapro
+player.createFromSongUrl("https://piapro.jp/t/C0lr/20180328201242");
+
+// Niconico
+player.createFromSongUrl("http://www.nicovideo.jp/watch/sm32459303");
+```
 
 ## 開発
 
