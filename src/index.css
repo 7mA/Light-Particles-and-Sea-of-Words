@@ -1,7 +1,7 @@
 #help {
   justify-content: center;
   position: relative;
-  margin-top: 20%;
+  margin-top: 200px;
   margin-left: 20%;
   margin-right: 20%;
   background: rgba(0,0,0,0.7);
@@ -87,6 +87,27 @@
 }
 #control > button:last-child {
   margin-right: 0;
+}
+
+#settings {
+  margin: 20px;
+  padding: 5px;
+  background: rgba(0,0,0,0.2);
+  color: rgba(255,255,255);
+  display: none;
+  z-index: 201;
+  font-family: 'Noto Sans JP';
+}
+
+#keyboardModeHelpContent {
+  margin: 20px;
+  padding: 5px;
+  width: 300px;
+  background: rgba(0,0,0,0.2);
+  color: rgba(255,255,255);
+  display: none;
+  z-index: 201;
+  font-family: 'Noto Sans JP';
 }
 
 main {

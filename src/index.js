@@ -39,6 +39,14 @@ const playBtn = document.querySelector("#play");
 const rewindBtn = document.querySelector("#rewind");
 const positionEl = document.querySelector("#position strong");
 const closeDescriptionBtn = document.querySelector("#close-description");
+const openSettingsBtn = document.querySelector("#open-settings");
+const closeSettingsBtn = document.querySelector("#close-settings");
+
+const themeColorSelector = document.querySelector("#themeColor");
+const keyboardModeSelector = document.querySelector("#keyboardMode");
+const keyboardModeHelp = document.querySelector("#keyboardModeHelp");
+const frameRateCheckbox = document.querySelector("#frameRate");
+const licenseBtn = document.querySelector("#license");
 
 const artistSpan = document.querySelector("#artist span");
 const songSpan = document.querySelector("#song span");
@@ -419,6 +427,70 @@ function onAppReady(app) {
       "click",
       () => player.video && player.requestMediaSeek(0)
     );
+
+    // 詳細設定を開く/閉じるボタン
+    openSettingsBtn.addEventListener(
+      "click",
+      () => {
+        if(document.querySelector("#settings").style.display == "block"){
+          document.querySelector("#settings").style.display = "none";
+          openSettingsBtn.innerHTML = "⏫詳細設定";
+        } else if(document.querySelector("#settings").style.display == "none"){
+          document.querySelector("#settings").style.display = "block";
+          openSettingsBtn.innerHTML = "⏬詳細設定";
+        }
+      }
+    )
+
+    // テーマカラーセレクタ
+    themeColorSelector.addEventListener(
+      "change",
+      (e) => {
+        changeThemeColor(e.target.value);
+      }
+    )
+
+    // キーボードモードセレクタ
+    keyboardModeSelector.addEventListener(
+      "change",
+      (e) => {
+        manualMode = (e.target.value === "1");
+      }
+    )
+
+    // キーボードモードヘルプ
+    keyboardModeHelp.addEventListener(
+      "mouseover",
+      () => {
+        document.querySelector("#keyboardModeHelpContent").style.display = "block";
+      }
+    )
+    keyboardModeHelp.addEventListener(
+      "mouseout",
+      () => {
+        document.querySelector("#keyboardModeHelpContent").style.display = "none";
+      }
+    )
+
+    // フレームレート表示チェックボックス
+    frameRateCheckbox.addEventListener(
+      "change",
+      () => {
+        fpsFlag = frameRateCheckbox.checked;
+        console.log(fpsFlag);
+      }
+    )
+
+    // ライセンス情報表示
+    licenseBtn.addEventListener(
+      "click",
+      () => {
+        document.querySelector("#help").style.display = "block";
+        document.querySelector("#description").style.display = "none";
+        document.querySelector("#licenseInfo").style.display = "block";
+
+      }
+    )
   }
 
   if (!app.songUrl) {
@@ -511,7 +583,9 @@ function onTimeUpdate(position){
 
 // 再生が始まったら説明文を非表示に
 function onPlay() {
-  document.querySelector("#help").style.display = "none";
+  if(document.querySelector("#description").style.display !== "none"){
+    document.querySelector("#help").style.display = "none";
+  }
 }
 
 function onValenceArousalLoad(valenceArousal, reason) {
@@ -536,41 +610,7 @@ function onSeek(){
  */
 function onAppParameterUpdate(name, value){
   if(name === "themeColor"){
-    themeColor = value;
-    let splashAnimation;
-    switch (value) {
-      case 0:
-        splashAnimation = Splash0
-        break;
-      case 1:
-        splashAnimation = Splash1
-        break;
-      case 2:
-        splashAnimation = Splash2
-        break;
-      case 3:
-        splashAnimation = Splash3
-        break;
-      case 4:
-        splashAnimation = Splash4
-        break;
-      case 5:
-        splashAnimation = Splash5
-        break;
-      default:
-        break;
-    }
-    lottieSplashAnimation = Lottie.loadAnimation({
-      container: lottieSplashContainer,
-      renderer: "svg",
-      loop: false,
-      autoplay: false,
-      animationData: splashAnimation,
-      rendererSettings: {
-        id: 'splash'
-      },
-    });
-    lottieSplashAnimation.goToAndStop();
+    changeThemeColor(value);
   } else if(name === "manualMode"){
     manualMode = value;
   } else if(name === "fpsFlag"){
@@ -595,6 +635,45 @@ function starOnPos(offsetX, offsetY){
   lottieStarAnimation.goToAndPlay(0);
   obj.style.marginLeft = offsetX;
   obj.style.marginTop = offsetY;
+}
+
+function changeThemeColor(value){
+  themeColor = parseInt(value);
+  let splashAnimation;
+  switch (themeColor) {
+    case 0:
+      splashAnimation = Splash0
+      break;
+    case 1:
+      splashAnimation = Splash1
+      break;
+    case 2:
+      splashAnimation = Splash2
+      break;
+    case 3:
+      splashAnimation = Splash3
+      break;
+    case 4:
+      splashAnimation = Splash4
+      break;
+    case 5:
+      splashAnimation = Splash5
+      break;
+    default:
+      break;
+  }
+  lottieSplashContainer.innerHTML = "";
+  lottieSplashAnimation = Lottie.loadAnimation({
+    container: lottieSplashContainer,
+    renderer: "svg",
+    loop: false,
+    autoplay: false,
+    animationData: splashAnimation,
+    rendererSettings: {
+      id: 'splash'
+    },
+  });
+  lottieSplashAnimation.goToAndStop();
 }
 
 // p5.js を初期化
@@ -737,6 +816,7 @@ new P5((p5) => {
         characterAspectRatio = 1.42;
         break;
       default:
+        console.log(themeColor);
         break;
     }
 
@@ -1968,7 +2048,7 @@ new P5((p5) => {
 
   // キーボードマニュアルモード
   p5.keyTyped = (k) => {
-    if(!chordKeyboardFlag) return;
+    if(!chordKeyboardFlag || !manualMode) return;
     let keyCode = k.code;
     switch (keyCode) {
       case "KeyZ":
@@ -2031,7 +2111,7 @@ new P5((p5) => {
   }
 
   p5.keyReleased = (k) => {
-    if(!chordKeyboardFlag) return;
+    if(!chordKeyboardFlag && !manualMode) return;
     let keyCode = k.code;
     switch (keyCode) {
       case "KeyZ":
