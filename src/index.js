@@ -366,12 +366,16 @@ const player = new Player({
         },
         {
           title: "キーボードマニュアルモード(キーボードが表示される場合のみ有効)",
-          name: "manualMode",
-          className: "Check",
-          initialValue: false,
+          name: "keyboardMode",
+          className: "Select",
+          params: [
+            [0, "コードモード(キーボードが曲のコード進行に従って自動に演出するモード)"],
+            [1, "マニュアルモード(PC入力でキーボードの演出をカスタマイズできるモード)"]
+          ],
+          initialValue: 0,
         },
         {
-          title: "FPS表示",
+          title: "フレームレート表示",
           name: "fpsFlag",
           className: "Check",
           initialValue: true,
@@ -611,8 +615,8 @@ function onSeek(){
 function onAppParameterUpdate(name, value){
   if(name === "themeColor"){
     changeThemeColor(value);
-  } else if(name === "manualMode"){
-    manualMode = value;
+  } else if(name === "keyboardMode"){
+    manualMode = (value === 1);
   } else if(name === "fpsFlag"){
     fpsFlag = value;
   }
