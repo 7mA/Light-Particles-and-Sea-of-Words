@@ -2,7 +2,7 @@
   "name": "Light-Particles-and-Sea-of-Words",
   "private": true,
   "version": "1.0.0",
-  "description": "発声中のテキストを表示したりTextAlive ホストの有無により再生コントロールの表示状態を切り替えたりするTextAlive App APIの作例",
+  "description": "初音ミク「マジカルミライ 2020」プログラミング・コンテスト応募作品",
   "main": "index.js",
   "scripts": {
     "dev": "parcel src/index.html --out-dir dev",

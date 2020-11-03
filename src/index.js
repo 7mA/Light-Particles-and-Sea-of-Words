@@ -1,12 +1,12 @@
 /**
  * 光粒子とコトバの海
- * （github URL)
+ * https://github.com/7mA/Light-Particles-and-Sea-of-Words
  *
  * デブリに見えるほどの無数の光粒子とグリーンライツを放つ流星をイメージにした物語。
  * やがてコトバたちがキミの命になってゆく。
  * TextAlive ホストと接続するか、アプリURLにクエリパラメータを指定すれば（詳細はREADME.md）曲が選べます。
- * (TextAliveホスト)
- * APP：（App URL）
+ * https://developer.textalive.jp/app/run/
+ * APP URL： https://7ma.github.io/Light-Particles-and-Sea-of-Words/ (審査後公開)
  */
 
 import { Player, Ease } from "textalive-app-api";
@@ -287,7 +287,6 @@ let chordNameMatrix = [
 // Miku, Len, Rin, Luka, Meiko, Kaito
 const lightColorGradientArray = ["#8fd3f4", "#fafcc2", "#fff8cd", "#ffd5cd", "#fd7b5f", "#04befe"];
 const heavyColorGradientArray = ["#84fab0", "#ccf6c8", "#ffe05d", "#fff8cd", "#c4486b", "#a3d2ca"];
-// TODO: MIKU以外のキャラ用色を要追加
 const colorGradientArray = [
   ["#84fab0", "#00f2fe", "#8fd3f4", "#4facfe", "#8ec5fc", "#e0c3fc"],
   ["#ccf6c8", "#e3f6c8", "#fafcc2", "#fcf4c2", "#fceac2", "#fccdc2"],
@@ -486,13 +485,59 @@ function onAppReady(app) {
 
       }
     )
-  }
 
-  if (!app.songUrl) {
-    // player.createFromSongUrl("http://www.youtube.com/watch?v=ygY2qObZv24");
-    // player.createFromSongUrl("https://www.youtube.com/watch?v=a-Nf3QUFkOU");
-    player.createFromSongUrl("https://www.youtube.com/watch?v=XSLhsjepelI");
+    // グリーンライツ・セレナーデ / Omoi feat. 初音ミク
+    // - 初音ミク「マジカルミライ 2018」テーマソング
+    // - 楽曲: http://www.youtube.com/watch?v=XSLhsjepelI
+    // - 歌詞: https://piapro.jp/t/61Y2
+    player.createFromSongUrl("http://www.youtube.com/watch?v=XSLhsjepelI", {
+      video: {
+        // 音楽地図訂正履歴: https://songle.jp/songs/1249410/history
+        beatId: 3818919,
+        chordId: 1207328,
+        repetitiveSegmentId: 1942131,
+        // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/www.youtube.com%2Fwatch%3Fv%3DXSLhsjepelI
+        lyricId: 50145,
+        lyricDiffId: 3168
+      }
+    });
+
+    // ブレス・ユア・ブレス / 和田たけあき feat. 初音ミク
+    // - 初音ミク「マジカルミライ 2019」テーマソング
+    // - 楽曲: http://www.youtube.com/watch?v=a-Nf3QUFkOU
+    // - 歌詞: https://piapro.jp/t/Ytwu
+    // player.createFromSongUrl("http://www.youtube.com/watch?v=a-Nf3QUFkOU", {
+    //   video: {
+    //     // 音楽地図訂正履歴: https://songle.jp/songs/1688650/history
+    //     beatId: 3818481,
+    //     chordId: 1546157,
+    //     repetitiveSegmentId: 1942135,
+    //     // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/www.youtube.com%2Fwatch%3Fv=a-Nf3QUFkOU
+    //     lyricId: 50146,
+    //     lyricDiffId: 3143
+    //   }
+    // });
+
+    // 愛されなくても君がいる / ピノキオピー feat. 初音ミク
+    // - 初音ミク「マジカルミライ 2020」テーマソング
+    // - 楽曲: http://www.youtube.com/watch?v=ygY2qObZv24
+    // - 歌詞: https://piapro.jp/t/PLR7
+    // player.createFromSongUrl("http://www.youtube.com/watch?v=ygY2qObZv24", {
+    //   video: {
+    //     // 音楽地図訂正履歴: https://songle.jp/songs/1977449/history
+    //     beatId: 3818852,
+    //     chordId: 1955797,
+    //     repetitiveSegmentId: 1942043,
+    //     // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/www.youtube.com%2Fwatch%3Fv=ygY2qObZv24
+    //     lyricId: 50150,
+    //     lyricDiffId: 3158
+    //   }
+    // }
+
+    //　ピアプロメディア例（METEOR ／ 初音ミク）
     // player.createFromSongUrl("https://piapro.jp/t/C0lr/20180328201242");
+
+    // ニコニコ動画メディア例（四角い地球を丸くする / TOKOTOKO（西沢さんP））
     // player.createFromSongUrl("http://www.nicovideo.jp/watch/sm32459303");
   }
 
@@ -552,6 +597,8 @@ function onTimerReady(t) {
   document
     .querySelectorAll("button")
     .forEach((btn) => (btn.disabled = false));
+
+  closeDescriptionBtn.innerHTML = "閉じる";
 }
 
 // 再生が始まったら説明文を非表示に
