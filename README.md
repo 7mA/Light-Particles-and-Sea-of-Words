@@ -40,13 +40,13 @@ player.createFromSongUrl("http://www.nicovideo.jp/watch/sm32459303");
 ![キーボード](https://i.gyazo.com/293280dccd4bc98fa33c55584b097aca.gif)
 
 ### 間奏でも音量で曲の熱意を伝える
-
-
+![音量](https://i.gyazo.com/49c19aa493987873732312bd1a944eee.gif)
 
 ## 自分で演出をカスタマイズしよう
 
 「詳細設定」ではさらにカスタマイズができます。
 ピアプロキャラクターのイメージ色に合わせて、曲の映像も変えます。
+![](https://i.gyazo.com/6258bb73246c93c4b559a1e3db7fcfa2.gif)
 
 キーボードがあるのに、弾けないともったいない！
 「マニュアルモード」では、PCのキーボードでも映像演出をカスタマイズできます。
