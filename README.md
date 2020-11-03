@@ -50,12 +50,14 @@ player.createFromSongUrl("http://www.nicovideo.jp/watch/sm32459303");
 
 キーボードがあるのに、弾けないともったいない！
 「マニュアルモード」では、PCのキーボードでも映像演出をカスタマイズできます。
-
+![](https://i.gyazo.com/2eba20ebe73e0e7a81cbcdf4bf406ecc.gif)
 
 ## やがて言葉がキミになってゆく
 
 目の前にある言葉たちを集め、その声の果てまで見渡そう。
 
+![](https://i.gyazo.com/5dfb04a4bf5570b3957da5dee6ce4d1f.gif)
+![](https://i.gyazo.com/f62943e436708330b51ff30bdec7cd9c.gif)
 
 ## 開発
 
