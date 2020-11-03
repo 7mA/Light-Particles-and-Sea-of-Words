@@ -502,9 +502,9 @@ function onAppReady(app) {
   }
 
   if (!app.songUrl) {
-    // player.createFromSongUrl("http://www.youtube.com/watch?v=ygY2qObZv24");
+    player.createFromSongUrl("http://www.youtube.com/watch?v=ygY2qObZv24");
     // player.createFromSongUrl("https://www.youtube.com/watch?v=a-Nf3QUFkOU");
-    player.createFromSongUrl("https://www.youtube.com/watch?v=XSLhsjepelI");
+    // player.createFromSongUrl("https://www.youtube.com/watch?v=XSLhsjepelI");
     // player.createFromSongUrl("https://piapro.jp/t/C0lr/20180328201242");
     // player.createFromSongUrl("http://www.nicovideo.jp/watch/sm32459303");
   }
@@ -693,11 +693,11 @@ new P5((p5) => {
   // キャンバスの大きさなどを計算
   var originWidth = 1618;
   var originHeight = 1000;
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+  var width = window.innerWidth;
+  var height = window.innerHeight;
 
-  const widthProportion = width / originWidth;
-  const heightProportion = height / originHeight;
+  var widthProportion = width / originWidth;
+  var heightProportion = height / originHeight;
 
   var balls = new Array(Math.round(500 * widthProportion));
   var r = width / 2;
@@ -752,7 +752,6 @@ new P5((p5) => {
   // キャンバスを作成
   p5.setup = () => {
     p5.createCanvas(width, height, p5.WEBGL);
-    // p5.ortho(-width / 2, width / 2, -height / 2, height / 2, 0.1, 2000);
 
     sans = p5.loadFont(Sans);
     mplus = p5.loadFont(Mplus);
@@ -2170,4 +2169,36 @@ new P5((p5) => {
     }
     return false;
   }
+
+  p5.windowResized = () => {
+    width = window.innerWidth;
+    height = window.innerHeight;
+
+    widthProportion = width / originWidth;
+    heightProportion = height / originHeight;
+
+    balls = new Array(Math.round(500 * widthProportion));
+    r = width / 2;
+
+    subSatelliteRevolutionRedius = 200;
+    maxMainSatelitteRevolutionRedius = subSatelliteRevolutionRedius * 1.618;
+
+    subSatelliteRevolutionRedius *= heightProportion;
+    maxMainSatelitteRevolutionRedius *= widthProportion;
+
+    chordKeyboardFlag = true;
+    if(height * 0.382 < 310 || width / 2 < 541){
+      chordKeyboardFlag = false;
+    }
+
+    p5.resizeCanvas(width, height, p5.WEBGL);
+
+    for(let i = 0; i < balls.length; i++){
+      var s1 = p5.random(r);
+      var s2 = p5.TWO_PI/360 * p5.random(360);
+      var s3 = p5.TWO_PI/360 * p5.random(360);
+      balls[i] = [s1 * p5.cos(s2), s1 * p5.sin(s2), s3, s1];
+    }
+  }
+
 });
