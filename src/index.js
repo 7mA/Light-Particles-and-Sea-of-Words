@@ -48,16 +48,6 @@ const keyboardModeHelp = document.querySelector("#keyboardModeHelp");
 const frameRateCheckbox = document.querySelector("#frameRate");
 const licenseBtn = document.querySelector("#license");
 
-const artistSpan = document.querySelector("#artist span");
-const songSpan = document.querySelector("#song span");
-const beatsSpan = document.querySelector("#beats span");
-const chordNameSpan = document.querySelector("#chord-name span");
-const chordDurationSpan = document.querySelector("#chord-duration span");
-const chordIndexSpan = document.querySelector("#chord-index span");
-const segmentsSpan = document.querySelector("#segments span");
-const valenceArousalSpan = document.querySelector("#valenceArousal span");
-const vocalAmplitudeSpan = document.querySelector("#vocalAmplitude span");
-const unitProgressSpan = document.querySelector("#unitProgress span");
 const lottieSplashContainer = document.querySelector("#lottie-splash");
 const lottieLoaderContainer = document.querySelector("#lottie-loader");
 const lottieStarContainer = document.querySelector("#lottie-star");
@@ -518,11 +508,8 @@ function onAppReady(app) {
  * @param {IVideo} v - https://developer.textalive.jp/packages/textalive-app-api/interfaces/ivideo.html
  */
 function onVideoReady(v) {
-  // メタデータを表示する
   title = player.data.song.name;
   artist = player.data.song.artist.name;
-  // artistSpan.textContent = artist;
-  // songSpan.textContent = title;
 
   video = v;
 
@@ -568,25 +555,6 @@ function onTimerReady(t) {
   document
     .querySelectorAll("button")
     .forEach((btn) => (btn.disabled = false));
-}
-
-/**
- * 動画の再生位置が変更されたときに呼ばれる（あまりに頻繁な発火を防ぐため一定間隔に間引かれる）
- *
- * @param {number} position - https://developer.textalive.jp/packages/textalive-app-api/interfaces/playereventlistener.html#onthrottledtimeupdate
- */
-function onThrottledTimeUpdate(position) {
-  // 再生位置を表示する
-  // positionEl.textContent = String(Math.floor(position));
-
-  // さらに精確な情報が必要な場合は `player.timer.position` でいつでも取得できます
-}
-
-function onTimeUpdate(position){
-  // if(isValenceArousalValid) {
-  //   valenceArousalSpan.textContent = "a: " + player.getValenceArousal(position).a + " v: " + player.getValenceArousal(position).v;
-  // }
-  // vocalAmplitudeSpan.textContent = player.getVocalAmplitude(position);
 }
 
 // 再生が始まったら説明文を非表示に
@@ -846,17 +814,11 @@ new P5((p5) => {
 
     if (beat) {
       beatIndex = beat.index
-      // beatsSpan.textContent = beatIndex;
       beatProgress = beat.progress(position);
     }
 
     if(chord){
       chordName = player.findChord(position).name
-      chordNameSpan.textContent =  chordName;
-      chordIndexSpan.textContent =  player.findChord(position).index;
-    } else {
-      // chordNameSpan.textContent = "";
-      // chordIndexSpan.textContent = "";
     }
 
     if(segment){
@@ -864,7 +826,6 @@ new P5((p5) => {
     } else {
       chorusIndex = "";
     }
-    // segmentsSpan.textContent = chorusIndex;
 
     if(valenceArousal){
       maxBallRadius = 1 + valenceArousal.v;
@@ -984,9 +945,10 @@ new P5((p5) => {
     }
     p5.pop();
 
-    p5.push();
-    p5.stroke(255, 50);
-    p5.strokeWeight(1);
+    // 補助線
+    // p5.push();
+    // p5.stroke(255, 50);
+    // p5.strokeWeight(1);
     // for(let i = -width * 10; i < 11 * width;i+= 100){
     //   p5.line(i, height, width / 2, height * 0.613);
     // }
@@ -1005,7 +967,7 @@ new P5((p5) => {
     // p5.line(0, height, width, height);
     // p5.line(width, height, width, 0);
     // p5.line(width, 0, 0, 0);
-    p5.pop();
+    // p5.pop();
 
     // Chord
     if(chordKeyboardFlag){

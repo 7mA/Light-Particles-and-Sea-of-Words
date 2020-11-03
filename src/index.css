@@ -56,19 +56,6 @@ body {
   z-index: 200;
 }
 
-#header {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-#meta {
-  margin: 10px;
-  padding: 5px;
-  background: rgba(0,0,0,0.2);
-  color: rgba(255,255,255);
-}
-
 #footer {
   position: absolute;
   left: 0;
