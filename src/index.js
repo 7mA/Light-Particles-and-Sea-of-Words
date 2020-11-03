@@ -35,11 +35,10 @@ import Character3 from './assets/lukav4x.png'
 import Character4 from './assets/meikov3.png'
 import Character5 from './assets/kaitov3.png'
 
-const playBtns = document.querySelectorAll(".play");
-const jumpBtn = document.querySelector("#jump");
-const pauseBtn = document.querySelector("#pause");
+const playBtn = document.querySelector("#play");
 const rewindBtn = document.querySelector("#rewind");
 const positionEl = document.querySelector("#position strong");
+const closeDescriptionBtn = document.querySelector("#close-description");
 
 const artistSpan = document.querySelector("#artist span");
 const songSpan = document.querySelector("#song span");
@@ -377,7 +376,6 @@ const player = new Player({
 });
 
 // TextAlive Player のイベントリスナを登録する
-// Register event listeners
 player.addListener({
   onAppReady,
   onVideoReady,
@@ -396,30 +394,25 @@ player.addListener({
  * @param {IPlayerApp} app - https://developer.textalive.jp/packages/textalive-app-api/interfaces/iplayerapp.html
  */
 function onAppReady(app) {
+  closeDescriptionBtn.addEventListener(
+    "click",
+    () => {
+      document.querySelector("#help").style.display = "none";
+    }
+  )
+
   // TextAlive ホストと接続されていなければ再生コントロールを表示する
-  // Show control if this app is launched standalone (not connected to a TextAlive host)
   if (!app.managed) {
     document.querySelector("#control").style.display = "block";
 
-    // 再生ボタン
-    playBtns.forEach((playBtn) =>
-      playBtn.addEventListener("click", () => {
+    // 再生/一時停止ボタン
+    playBtn.addEventListener("click", () => {
+      if(player.isPlaying){
+        player.video && player.requestPause();
+      } else {
         player.video && player.requestPlay();
-      })
-    );
-
-    // 歌詞頭出しボタン
-    jumpBtn.addEventListener(
-      "click",
-      // () => player.video && player.requestMediaSeek(player.video.firstChar.startTime)
-      () => player.video && player.requestMediaSeek(player.video.lastPhrase.startTime)
-    );
-
-    // 一時停止ボタン
-    pauseBtn.addEventListener(
-      "click",
-      () => player.video && player.requestPause()
-    );
+      }
+    });
 
     // 巻き戻しボタン
     rewindBtn.addEventListener(
@@ -431,8 +424,8 @@ function onAppReady(app) {
   if (!app.songUrl) {
     // player.createFromSongUrl("http://www.youtube.com/watch?v=ygY2qObZv24");
     // player.createFromSongUrl("https://www.youtube.com/watch?v=a-Nf3QUFkOU");
-    // player.createFromSongUrl("https://www.youtube.com/watch?v=XSLhsjepelI");
-    player.createFromSongUrl("https://piapro.jp/t/C0lr/20180328201242");
+    player.createFromSongUrl("https://www.youtube.com/watch?v=XSLhsjepelI");
+    // player.createFromSongUrl("https://piapro.jp/t/C0lr/20180328201242");
     // player.createFromSongUrl("http://www.nicovideo.jp/watch/sm32459303");
   }
 
@@ -495,9 +488,6 @@ function onTimerReady(t) {
   document
     .querySelectorAll("button")
     .forEach((btn) => (btn.disabled = false));
-
-  // 歌詞がなければ歌詞頭出しボタンを無効にする
-  jumpBtn.disabled = !video.firstChar;
 }
 
 /**
@@ -519,9 +509,9 @@ function onTimeUpdate(position){
   // vocalAmplitudeSpan.textContent = player.getVocalAmplitude(position);
 }
 
-// 再生が始まったら #overlay を非表示に
+// 再生が始まったら説明文を非表示に
 function onPlay() {
-
+  document.querySelector("#help").style.display = "none";
 }
 
 function onValenceArousalLoad(valenceArousal, reason) {

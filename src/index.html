@@ -2,10 +2,21 @@
   <head>
     <title>光粒子とコトバの海 | Light Particles and Sea of Words</title>
     <link rel="stylesheet" href="index.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
+    <div id="help">
+      <div class="description">
+        <p class="description-title">説明</p>
+        <p class="description-content">1.本アプリの推奨環境はPCブラウザ、画面解像度1440×900以上です。</p>
+        <p class="description-content">2.左下のコントロールパネルでは再生制御と表示設定ができます。</p>
+        <p class="description-content">3.「キーボードマニュアルモード」を有効するために、推奨解像度以上の画面が必要です。</p>
+      </div>
+      <div class="button-area">
+        <button id="close-description" disabled>閉じる</button>
+      </div>
+    </div>
     <div id="lottie-splash"></div>
     <div id="lottie-loader"></div>
     <div id="lottie-star"></div>
@@ -28,10 +39,8 @@
         <span id="position"><strong>-</strong> [ms]</span>
       </p> -->
       <div id="control" style="display: none">
-        <button class="play" disabled>再生</button>
-        <button id="jump" disabled>歌詞頭出し</button>
-        <button id="pause" disabled>一時停止</button>
-        <button id="rewind" disabled>巻き戻し</button>
+        <button id="play" disabled>⏯再生/一時停止</button>
+        <button id="rewind" disabled>⏪巻き戻し</button>
       </div>
     </div>
     <script src="./index.js"></script>
