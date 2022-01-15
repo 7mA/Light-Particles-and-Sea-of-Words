@@ -25,7 +25,7 @@
   "dependencies": {
     "bodymovin": "^4.13.0",
     "lottie-web": "^5.7.3",
-    "node-forge": "^0.10.0",
+    "node-forge": "^1.0.0",
     "p5": "^1.1.9",
     "textalive-app-api": "^0.2.1"
   },
